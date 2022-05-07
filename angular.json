@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "nameprobyorion": {
+    "nameprobyorionangular": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -85,14 +85,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nameprobyorion:build"
+            "browserTarget": "nameprobyorionangular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "nameprobyorion:build:production"
+              "browserTarget": "nameprobyorionangular:build:production"
             },
             "development": {
-              "browserTarget": "nameprobyorion:build:development"
+              "browserTarget": "nameprobyorionangular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -100,7 +100,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "nameprobyorion:build"
+            "browserTarget": "nameprobyorionangular:build"
           }
         },
         "test": {
@@ -143,7 +143,7 @@
         }
       }
     },
-    "nameprobyorion-e2e": {
+    "nameprobyorionangular-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -152,7 +152,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "nameprobyorion:serve"
+            "devServerTarget": "nameprobyorionangular:serve"
           }
         },
         "lint": {
@@ -167,7 +167,7 @@
       }
     }
   },
-  "defaultProject": "nameprobyorion",
+  "defaultProject": "nameprobyorionangular",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
