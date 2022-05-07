@@ -100,7 +100,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     setTimeout() {
-        setTimeout(() => { this.voiceLoader = false }, 5000)
+        setTimeout(() => { this.voiceLoader = false }, 7000)
     }
 
     onChangeofVoice(data: MatSelectChange) {
