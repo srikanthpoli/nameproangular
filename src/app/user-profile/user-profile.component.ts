@@ -91,7 +91,7 @@ export class UserProfileComponent implements OnInit {
         this.voiceLoader = true;
         const audio = new Audio();
 
-        audio.src = 'http://nameprobyorion.azurewebsites.net/texttospeech/download?employeeName=' +
+        audio.src = 'https://nameprobyorion.azurewebsites.net/texttospeech/download?employeeName=' +
             'Srikanth Polisetty&gender=' + this.genderName + '&lang=' + this.languageName + '&voiceName=' + this.shortName;
         audio.load();
         audio.play();

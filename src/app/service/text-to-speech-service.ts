@@ -7,6 +7,6 @@ export class TextToSpeechService {
     constructor(private http: HttpClient) {}
 
     getVoiceList() {
-       return  this.http.get('http://nameprobyorion.azurewebsites.net/texttospeech/voicelist');
+       return  this.http.get('https://nameprobyorion.azurewebsites.net/texttospeech/voicelist');
     }
 }
