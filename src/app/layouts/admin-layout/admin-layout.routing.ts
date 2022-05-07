@@ -5,9 +5,6 @@ import { UserProfileComponent } from '../../user-profile/user-profile.component'
 
 
 export const AdminLayoutRoutes: Routes = [
- 
-    { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
-   
-    
+    { path: 'dashboard',      component: DashboardComponent }
 ];
