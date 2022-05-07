@@ -110,7 +110,52 @@
 
           </div>
           <div class="card-body">
-            <form>
+            <div style=" margin-left: auto;
+                          margin-right: auto;
+                          width: 50px">
+              <mat-spinner *ngIf="!dataLoaded"></mat-spinner>
+            </div>
+            <form *ngIf="dataLoaded">
+              <div class="row">
+                <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Language</mat-label>
+                <mat-select (selectionChange)="onChange($event)" required>
+                  <mat-option *ngFor="let lang of languages" [value]="lang.value" >
+                    {{lang.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+                </div>
+
+                  <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Voice</mat-label>
+                      <mat-select (selectionChange)="onChangeofVoice($event)" required>
+                        <mat-option *ngFor="let voice of voiceNames" [value]="voice.value" >
+                          {{voice.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                <span style="    color: red;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 500" *ngIf="this.notSelectedValidationFailed">*Please Select a Value</span>
+                </div>
+              </div>
+              <div class="row">
+                <div style="    margin-left: auto;
+                          margin-right: auto;
+                          width: 50px">
+                  <mat-spinner [diameter]="50" *ngIf="voiceLoader"></mat-spinner>
+                  <button *ngIf="!voiceLoader" mat-raised-button color="primary"
+                          (click)="onPlayStandard()" [disabled]="this.notSelectedValidationFailed"><mat-icon>play_arrow</mat-icon>Play</button></div>
+
+              </div>
 
 
               <div class="clearfix"></div>
@@ -118,7 +163,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </div>
 </div>
