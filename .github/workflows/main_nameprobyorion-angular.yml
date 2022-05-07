@@ -52,6 +52,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'nameprobyorion-angular'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AB4815AE19E8445198EA8EA00D290609 }}
-          package: .
+          package: ./dist/nameprobyorion
