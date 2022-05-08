@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../service/auth.service';
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
@@ -11,10 +12,11 @@ import { User } from './user.model';
 })
 export class LoginPageComponent implements OnInit {
   LoginForm:FormGroup;
-  constructor(private formBuilder:FormBuilder,private authService:AuthService){
+  constructor(private formBuilder:FormBuilder,private authService:AuthService,
+    private router:Router){
     
   }
-  user=new Subject<User>();
+  
   ngOnInit(): void {
     this.LoginForm = this.formBuilder.group({
       userId:[''],
@@ -26,9 +28,9 @@ export class LoginPageComponent implements OnInit {
 
   login() {
     
-    this.authService.login(this.LoginForm.value.userId, this.LoginForm.value.password)
-    .subscribe(res=> {
-      this.user.next(res);
-    })
+    const result = this.authService.login(this.LoginForm.value.userId, this.LoginForm.value.password);
+    if(result) {
+      this.router.navigate(['/user-profile'])
+    }
   }
 }
