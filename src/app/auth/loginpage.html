@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="card" style="width:70%">
+    <div class="card-header card-header-danger">
+      <h4 class="card-title">Login</h4>
+
+    </div>
+    <div class="card-body">
+      <form [formGroup]="LoginForm">
+        <div style="padding:5px" class="row">
+          <div class="col-md-4">
+            <span style="font-weight:1000"><b>User Name</b></span>
+            <input formControlName="userId" />
+          </div>
+        </div>
+        <div style="padding:5px" class="row">
+          <div class="col-md-4">
+            <span style="font-weight:1000"><b>Password</b></span>
+            <input formControlName="password" />
+          </div>
+        </div>
+        <div style="padding:5px" class="row">
+          <div class="col-md-4">
+            <button class="btn btn-primary" type="button">
+              Login
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
