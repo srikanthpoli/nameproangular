@@ -8,21 +8,23 @@ import { analytics } from 'googleapis/build/src/apis/analytics';
   providedIn: 'root'
 })
 export class AuthService {
-
+  user=new Subject<User>();
   
-  GlobalConstants: any;
+  
   
   constructor() { }
 
   login(userId:any,password:any) {
-    let loggedInUser:any= {"userId":"none",password:"none"}
+    let loggedInUser:any= {"userId":"none","password":"none","roles":[]}
     
-    this.GlobalConstants.users.forEach(element => {
+    GlobalConstants.users.forEach(element => {
       if(element.userId === userId && element.password === password) {
       loggedInUser = element;
       
       }
     });
+    const userData = new User(loggedInUser.userId,loggedInUser.password,loggedInUser.roles);
+    this.user.next(userData);
     return loggedInUser;
     
   }
