@@ -1,18 +1,19 @@
+import {Router} from '@angular/router';
+import {AuthService} from './../service/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {TextToSpeechService} from '../service/text-to-speech-service';
 import {MatSelectChange} from '@angular/material/select';
-import {element} from 'protractor';
 
 interface Language {
     value: string;
     viewValue: string;
 };
+
 interface Voice {
     value: string;
     viewValue: string;
     gender: string;
 }
-
 
 
 @Component({
@@ -21,11 +22,13 @@ interface Voice {
     styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
+    // private userSub:Subscription;
+    isAuthenticated = false;
     languages: Language[] = [];
     voiceNames: Voice[] = [];
     dataLoaded = false;
     voiceLoader = false;
-        voiceList: any[] = [];
+    voiceList: any[] = [];
     datalocal: any;
     shortName = '';
     languageName = '';
@@ -33,7 +36,7 @@ export class UserProfileComponent implements OnInit {
     notSelectedValidationFailed = true;
 
 
-    constructor(private textToSpeechService: TextToSpeechService) {
+    constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router) {
     }
 
     ngOnInit() {
@@ -120,4 +123,5 @@ export class UserProfileComponent implements OnInit {
             this.notSelectedValidationFailed = true
         }
     }
+
 }
