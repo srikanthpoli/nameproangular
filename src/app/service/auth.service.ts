@@ -25,6 +25,7 @@ export class AuthService {
    
     const user = new User(loggedInUser.userId,loggedInUser.password,loggedInUser.roles);
     this.user.next(user);
+    localStorage.setItem('userData',JSON.stringify(user));
     return loggedInUser;
     
   }
@@ -33,6 +34,13 @@ export class AuthService {
     this.user.next(null);
     this.router.navigate(['/auth'])
     
+  }
+  
+  autoLogin() {
+   const userData:{userId:any,password:any,roles:any} =  JSON.parse(localStorage.getItem('userData'));
+   if(!userData) {return;}
+   const loadedUser = new User(userData.userId,userData.password,userData.roles);
+   this.user.next(loadedUser);
   }
   
 }
