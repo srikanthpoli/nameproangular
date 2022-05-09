@@ -1,7 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './../service/auth.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {TextToSpeechService} from '../service/text-to-speech-service';
 import {MatSelectChange} from '@angular/material/select';
 import {element} from 'protractor';
+import { Subscription } from 'rxjs';
 
 interface Language {
     value: string;
@@ -20,7 +23,9 @@ interface Voice {
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
+    private userSub:Subscription;
+  isAuthenticated = false;
     languages: Language[] = [];
     voiceNames: Voice[] = [];
     dataLoaded = false;
@@ -33,11 +38,19 @@ export class UserProfileComponent implements OnInit {
     notSelectedValidationFailed = true;
 
 
-    constructor(private textToSpeechService: TextToSpeechService) {
+    constructor(private textToSpeechService: TextToSpeechService,private authService:AuthService,private router:Router) {
     }
 
     ngOnInit() {
 
+        this.userSub = this.authService.user.subscribe(user => {
+            this.isAuthenticated = !!user;
+            console.log(!user);
+            console.log(!!user);
+          });
+          if(!this.isAuthenticated) {
+              this.router.navigate(['/auth']);
+          }
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
                  this.datalocal = data;
@@ -119,5 +132,8 @@ export class UserProfileComponent implements OnInit {
         } else {
             this.notSelectedValidationFailed = true
         }
+    }
+    ngOnDestroy(): void {
+        this.userSub.unsubscribe();
     }
 }

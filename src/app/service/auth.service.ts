@@ -1,18 +1,17 @@
 import { GlobalConstants } from './../common/global-constants';
 import { User } from './../auth/user.model';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { analytics } from 'googleapis/build/src/apis/analytics';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  user=new Subject<User>();
-  
-  
-  
-  constructor() { }
+  user=new BehaviorSubject<User>(null);
+   
+  constructor(private router:Router) { }
 
   login(userId:any,password:any) {
     let loggedInUser:any= {"userId":"none","password":"none","roles":[]}
@@ -23,9 +22,16 @@ export class AuthService {
       
       }
     });
-    const userData = new User(loggedInUser.userId,loggedInUser.password,loggedInUser.roles);
-    this.user.next(userData);
+   
+    const user = new User(loggedInUser.userId,loggedInUser.password,loggedInUser.roles);
+    this.user.next(user);
     return loggedInUser;
+    
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/auth'])
     
   }
   
