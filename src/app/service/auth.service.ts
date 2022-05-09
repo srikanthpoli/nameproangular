@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   user=new BehaviorSubject<User>(null);
+  private tokenExpirationTimer:any;
    
   constructor(private router:Router) { }
 
@@ -25,6 +26,7 @@ export class AuthService {
    
     const user = new User(loggedInUser.userId,loggedInUser.password,loggedInUser.roles);
     this.user.next(user);
+    this.autoLogout(10000);
     localStorage.setItem('userData',JSON.stringify(user));
     return loggedInUser;
     
@@ -32,7 +34,12 @@ export class AuthService {
 
   logout() {
     this.user.next(null);
-    this.router.navigate(['/auth'])
+    this.router.navigate(['/auth']);
+    localStorage.removeItem('userData');
+    if(this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
     
   }
   
@@ -41,6 +48,13 @@ export class AuthService {
    if(!userData) {return;}
    const loadedUser = new User(userData.userId,userData.password,userData.roles);
    this.user.next(loadedUser);
+   this.autoLogout(10000);
+  }
+
+  autoLogout(expirationDuration: number) {
+    this.tokenExpirationTimer = setTimeout(()=> {
+      this.logout();
+    },expirationDuration)
   }
   
 }
