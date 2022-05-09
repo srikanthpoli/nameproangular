@@ -23,8 +23,9 @@ interface Voice {
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit, OnDestroy {
-    private userSub:Subscription;
+export class UserProfileComponent implements OnInit//, OnDestroy
+ {
+    //private userSub:Subscription;
   isAuthenticated = false;
     languages: Language[] = [];
     voiceNames: Voice[] = [];
@@ -43,14 +44,14 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-        this.userSub = this.authService.user.subscribe(user => {
-            this.isAuthenticated = !!user;
-            console.log(!user);
-            console.log(!!user);
-          });
-          if(!this.isAuthenticated) {
-              this.router.navigate(['/auth']);
-          }
+        // this.userSub = this.authService.user.subscribe(user => {
+        //     this.isAuthenticated = !!user;
+        //     console.log(!user);
+        //     console.log(!!user);
+        //   });
+        //   if(!this.isAuthenticated) {
+        //       this.router.navigate(['/auth']);
+        //   }
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
                  this.datalocal = data;
@@ -133,7 +134,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
             this.notSelectedValidationFailed = true
         }
     }
-    ngOnDestroy(): void {
-        this.userSub.unsubscribe();
-    }
+    // ngOnDestroy(): void {
+    //     this.userSub.unsubscribe();
+    // }
 }
