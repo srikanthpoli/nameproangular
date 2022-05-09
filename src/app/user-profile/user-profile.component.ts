@@ -43,15 +43,7 @@ export class UserProfileComponent implements OnInit//, OnDestroy
     }
 
     ngOnInit() {
-
-        // this.userSub = this.authService.user.subscribe(user => {
-        //     this.isAuthenticated = !!user;
-        //     console.log(!user);
-        //     console.log(!!user);
-        //   });
-        //   if(!this.isAuthenticated) {
-        //       this.router.navigate(['/auth']);
-        //   }
+       
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
                  this.datalocal = data;
@@ -134,7 +126,5 @@ export class UserProfileComponent implements OnInit//, OnDestroy
             this.notSelectedValidationFailed = true
         }
     }
-    // ngOnDestroy(): void {
-    //     this.userSub.unsubscribe();
-    // }
+    
 }
