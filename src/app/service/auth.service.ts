@@ -15,11 +15,12 @@ export class AuthService {
   constructor(private router: Router) { }
 
   login(userId: any, password: any) {
-    let loggedInUser: any = { "userId": "none", "password": "none", "roles": [] }
-
+    let loggedInUser: any = { 'userId': 'none', 'password': 'none', 'roles': [] }
+      let isLoggedIn = false;
     GlobalConstants.users.forEach(element => {
       if (element.userId === userId && element.password === password) {
         loggedInUser = element;
+        isLoggedIn = true;
 
       }
     });
@@ -27,7 +28,7 @@ export class AuthService {
     const user = new User(loggedInUser.userId, loggedInUser.password, loggedInUser.roles);
     this.user.next(user);
     localStorage.setItem('userData', JSON.stringify(user));
-    return loggedInUser;
+    return isLoggedIn;
 
   }
 
@@ -35,7 +36,7 @@ export class AuthService {
     this.user.next(null);
     this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
-    
+
   }
 
   autoLogin() {
@@ -43,9 +44,9 @@ export class AuthService {
     if (!userData) { return; }
     const loadedUser = new User(userData.userId, userData.password, userData.roles);
     this.user.next(loadedUser);
-   
+
   }
 
-  
+
 
 }

@@ -1,15 +1,14 @@
-import { Router } from '@angular/router';
-import { AuthService } from './../service/auth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from './../service/auth.service';
+import {Component, OnInit} from '@angular/core';
 import {TextToSpeechService} from '../service/text-to-speech-service';
 import {MatSelectChange} from '@angular/material/select';
-import {element} from 'protractor';
-import { Subscription } from 'rxjs';
 
 interface Language {
     value: string;
     viewValue: string;
 };
+
 interface Voice {
     value: string;
     viewValue: string;
@@ -17,21 +16,19 @@ interface Voice {
 }
 
 
-
 @Component({
     selector: 'app-user-profile',
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit//, OnDestroy
- {
-    //private userSub:Subscription;
-  isAuthenticated = false;
+export class UserProfileComponent implements OnInit {
+    // private userSub:Subscription;
+    isAuthenticated = false;
     languages: Language[] = [];
     voiceNames: Voice[] = [];
     dataLoaded = false;
     voiceLoader = false;
-        voiceList: any[] = [];
+    voiceList: any[] = [];
     datalocal: any;
     shortName = '';
     languageName = '';
@@ -39,11 +36,11 @@ export class UserProfileComponent implements OnInit//, OnDestroy
     notSelectedValidationFailed = true;
 
 
-    constructor(private textToSpeechService: TextToSpeechService,private authService:AuthService,private router:Router) {
+    constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router) {
     }
 
     ngOnInit() {
-       
+
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
                  this.datalocal = data;
@@ -126,5 +123,5 @@ export class UserProfileComponent implements OnInit//, OnDestroy
             this.notSelectedValidationFailed = true
         }
     }
-    
+
 }
