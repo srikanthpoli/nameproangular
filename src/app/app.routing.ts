@@ -1,3 +1,4 @@
+import { Authguard } from './auth/auth.guard';
 import { LoginPageComponent } from './auth/loginpage.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
@@ -15,6 +16,7 @@ const routes: Routes = [
    {
     path: '',
     component: AdminLayoutComponent,
+    canActivate:[Authguard],
     children: [{
       path: '',
       loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
