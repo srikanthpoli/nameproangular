@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminLayoutRoutes } from './admin-layout.routing';
-import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AdminLayoutRoutes} from './admin-layout.routing';
+import {DashboardComponent} from '../../dashboard/dashboard.component';
+import {UserProfileComponent} from '../../user-profile/user-profile.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatRippleModule} from '@angular/material/core';
@@ -13,6 +13,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
+import {RecordedvoiceComponent} from '../../user-profile/recordedvoice/recordedvoice.component';
 
 @NgModule({
     imports: [
@@ -27,11 +28,12 @@ import {MatIconModule} from '@angular/material/icon';
         MatSelectModule,
         MatTooltipModule,
         MatProgressSpinnerModule,
-        MatIconModule,
+        MatIconModule
     ],
   declarations: [
     DashboardComponent,
-    UserProfileComponent
+    UserProfileComponent,
+      RecordedvoiceComponent
   ]
 })
 
