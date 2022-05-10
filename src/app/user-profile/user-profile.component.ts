@@ -43,9 +43,8 @@ export class UserProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.loadUserData().subscribe(res=> {
-             this.profileData=res;console.log(this.profileData);
-
+        this.userService.loadUserData().subscribe(res => {
+            this.profileData = res;
         });
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
