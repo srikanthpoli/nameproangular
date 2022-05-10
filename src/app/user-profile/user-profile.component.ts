@@ -1,3 +1,4 @@
+import { UserService } from './../service/user.service';
 import {Router} from '@angular/router';
 import {AuthService} from './../service/auth.service';
 import {Component, OnInit} from '@angular/core';
@@ -34,13 +35,17 @@ export class UserProfileComponent implements OnInit {
     languageName = '';
     genderName = '';
     notSelectedValidationFailed = true;
+    profileData:any;
 
 
-    constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router) {
+    constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router,
+        private userService:UserService) {
     }
 
     ngOnInit() {
-
+        this.userService.loadUserData().subscribe(res => {
+            this.profileData = res;
+        });
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
                  this.datalocal = data;
