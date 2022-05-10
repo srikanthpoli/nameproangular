@@ -3,6 +3,8 @@ import {AuthService} from './../service/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {TextToSpeechService} from '../service/text-to-speech-service';
 import {MatSelectChange} from '@angular/material/select';
+import {HttpClient} from '@angular/common/http';
+import {GlobalConstants} from '../common/global-constants';
 
 interface Language {
     value: string;
@@ -34,9 +36,12 @@ export class UserProfileComponent implements OnInit {
     languageName = '';
     genderName = '';
     notSelectedValidationFailed = true;
+    playbackcount: any = 0;
 
 
-    constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router) {
+    constructor(private textToSpeechService: TextToSpeechService,
+                private authService: AuthService, private router: Router,
+                private http: HttpClient) {
     }
 
     ngOnInit() {
@@ -61,8 +66,14 @@ export class UserProfileComponent implements OnInit {
                     this.languages.push({value : element.substring(0, element.indexOf(':', 0))  ,
                         viewValue:     element.substring(element.indexOf(':', 0) + 1)    });
                 });
-                this.dataLoaded = true;
-                console.log(this.languages);
+
+                this.http.get(GlobalConstants.URL + 'employee/sound/count/1989197').
+                    subscribe(data => {
+                        this.playbackcount = data;
+                    this.dataLoaded = true;
+                    console.log(this.languages);
+                });
+
 
 
 
@@ -94,7 +105,7 @@ export class UserProfileComponent implements OnInit {
         this.voiceLoader = true;
         const audio = new Audio();
 
-        audio.src = 'https://nameprobyorion.azurewebsites.net/texttospeech/download?employeeName=' +
+        audio.src = GlobalConstants.URL + 'texttospeech/download?employeeName=' +
             'Srikanth Polisetty&gender=' + this.genderName + '&lang=' + this.languageName + '&voiceName=' + this.shortName;
         audio.load();
         audio.play();

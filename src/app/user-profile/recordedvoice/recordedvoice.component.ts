@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import * as RecordRTC from 'recordrtc'
+import {GlobalConstants} from '../../common/global-constants';
 
 @Component({
   selector: 'app-recorded',
@@ -31,7 +32,7 @@ export class RecordedvoiceComponent implements OnInit {
   ngOnInit() {
     this.fileFound = false;
     this.loader = true;
-    this.http.get('https://nameprobyorion.azurewebsites.net/employee/sound/' + this.employeeID)
+    this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
         .subscribe(data => {
           console.log('data here' + JSON.stringify(data));
           if (data) {
@@ -108,12 +109,11 @@ export class RecordedvoiceComponent implements OnInit {
   send (audioFile: File) {
     const formData: FormData = new FormData();
     formData.append('file', audioFile, 'Recorded-' + this.employeeID + '.wav');
-    this.http.post(   'https://nameprobyorion.azurewebsites.net/employee/uploadSound/' + this.employeeID
+    this.http.post(   GlobalConstants.URL + 'employee/sound/' + this.employeeID
         , formData, {responseType: 'blob'}).subscribe(data => {
           this.loader = false;
           this.urlRecorded =
-              'https://nameprobyorion.azurewebsites.net' +
-              '/blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
+              GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
 
           this.fileFound = true;
 
@@ -135,7 +135,7 @@ export class RecordedvoiceComponent implements OnInit {
 
     const audio = new Audio();
     this.loader = true;
-    audio.src = 'https://nameprobyorion.azurewebsites.net/blob/getBlob?blobName=Recorded-1989197.wav';
+    audio.src = GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-1989197.wav';
     audio.load();
     audio.play();
     this.setTimeout();
@@ -146,7 +146,7 @@ export class RecordedvoiceComponent implements OnInit {
 
   onDelete() {
     this.loader = true;
-    this.http.delete('https://nameprobyorion.azurewebsites.net/employee/sound/' + this.employeeID,{
+    this.http.delete(GlobalConstants.URL + 'employee/sound/' + this.employeeID,{
       responseType: 'blob'
     })
         .subscribe(data => {
