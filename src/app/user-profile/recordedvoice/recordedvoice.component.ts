@@ -84,7 +84,7 @@ export class RecordedvoiceComponent implements OnInit {
    */
   stopRecording() {
     this.recording = false;
-    this.fileUploadInProgress = true;
+    this.loader = true;
     this.record.stop(this.processRecording.bind(this));
   }
 
@@ -110,7 +110,7 @@ export class RecordedvoiceComponent implements OnInit {
     formData.append('file', audioFile, 'Recorded-' + this.employeeID + '.wav');
     this.http.post(   'https://nameprobyorion.azurewebsites.net/employee/uploadSound/' + this.employeeID
         , formData, {responseType: 'blob'}).subscribe(data => {
-          this.fileUploadInProgress = false;
+          this.loader = false;
           this.urlRecorded =
               'https://nameprobyorion.azurewebsites.net' +
               '/blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
@@ -146,13 +146,14 @@ export class RecordedvoiceComponent implements OnInit {
 
   onDelete() {
     this.loader = true;
-    this.http.delete('https//nameprobyorion.azurewebsites.net/employee/sound/' + this.employeeID,{
+    this.http.delete('https://nameprobyorion.azurewebsites.net/employee/sound/' + this.employeeID,{
       responseType: 'blob'
     })
         .subscribe(data => {
           this.loader = false;
           this.fileFound  = false;
         })
+
 
   }
 }
