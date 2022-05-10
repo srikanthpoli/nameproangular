@@ -35,6 +35,7 @@ export class UserProfileComponent implements OnInit {
     languageName = '';
     genderName = '';
     notSelectedValidationFailed = true;
+    profileData:any;
 
 
     constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router,
@@ -42,9 +43,10 @@ export class UserProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.loadUserData().subscribe(res=> console.log(res))
-        
+        this.userService.loadUserData().subscribe(res=> {
+             this.profileData=res;console.log(this.profileData);
 
+        });
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
                  this.datalocal = data;

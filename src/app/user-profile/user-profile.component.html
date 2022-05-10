@@ -15,13 +15,13 @@
                   <span  style="font-weight:1000"><b>User Name :</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 20px;
-                  font-weight:500">U832221</span>
+                  font-weight:500">{{this.profileData.userid}}</span>
                 </div>
                 <div class="col-md-8">
                   <span style="font-weight:1000" ><b>Email Id:</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 44px;
-                  font-weight:500">srikanth.polisetty@wellsfargo.com</span>
+                  font-weight:500">{{this.profileData.emailid}}</span>
                 </div>
               </div>
               <div style="padding:5px" class="row">
@@ -30,14 +30,31 @@
                   <span style="font-weight:1000"><b>First Name :</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 20px;
-                  font-weight:500">Srikanth</span>
+                  font-weight:500">{{this.profileData.firstname}}</span>
                 </div>
                 <div class="col-md-8">
                   <span style="font-weight:1000"><b>Last Name:</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 30px;
-                  font-weight:500">Polisetty</span>
+                  font-weight:500">{{this.profileData.lastname}}</span>
                 </div>
+              </div>
+
+              <div style="padding:5px"class="row">
+
+                <div class="col-md-4">
+                  <span  style="font-weight:1000"><b> Locale :</b></span> <span style="display: inline;
+                  position:relative;
+                  margin-left: 70px;
+                  font-weight:500">{{this.profileData.locale}}</span>
+                </div>
+                <div class="col-md-8">
+                  <span  style="font-weight:1000"><b>Preferred Name:</b></span> <span style="display: inline;
+                  position:relative;
+                  margin-left: 47px;
+                  font-weight:500">{{this.profileData.preferedname}}</span>
+                </div>
+              
               </div>
 
               <div style="padding:5px"class="row">
@@ -46,13 +63,13 @@
                   <span  style="font-weight:1000"><b> City :</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 70px;
-                  font-weight:500">Hyderabad</span>
+                  font-weight:500">{{this.profileData.city}}</span>
                 </div>
                 <div class="col-md-8">
                   <span  style="font-weight:1000"><b>Country:</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 47px;
-                  font-weight:500">India</span>
+                  font-weight:500">{{this.profileData.country}}</span>
                 </div>
               
               </div>
@@ -62,7 +79,7 @@
                   <span  style="font-weight:1000"><b> Manager Name :</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 20px;
-                  font-weight:500">Paul, Biju</span>
+                  font-weight:500">{{this.profileData.managerid}}</span>
                 </div>
                 
               </div>
@@ -72,7 +89,7 @@
                   <span  style="font-weight:1000"><b> Skill set :</b></span> <span style="display: inline;
                   position:relative;
                   margin-left: 63px;
-                  font-weight:500">Java 8+, Angular, SQL, HTML, CSS</span>
+                  font-weight:500">{{this.profileData.skills}}</span>
                 </div>
                 
               </div>
@@ -88,14 +105,14 @@
           <div class="card-avatar">
             <a href="javascript:void(0)">
               <img class="img"
-                src="https://media-exp1.licdn.com/dms/image/C4E03AQEIPSxq__RcbQ/profile-displayphoto-shrink_800_800/0/1516828507982?e=1657152000&v=beta&t=7sppNt4wmx5wKWxN2oRBuQZw6ezuLU2hDX4jM6yGaDI" />
+                src={{this.profileData.imageurl}} />
             </a>
           </div>
           <div class="card-body">
-            <h6 class="card-category text-gray">Senior Software Engineer</h6>
-            <h4 class="card-title">Srikanth Polisetty</h4>
+            <h6 class="card-category text-gray">{{this.profileData.title}}</h6>
+            <h4 class="card-title">{{this.profileData.fullname}}</h4>
             <p class="card-description">
-              An Engineer, atleast my degree says so..
+              {{this.profileData.bio}}
             </p>
 
           </div>
@@ -121,7 +138,7 @@
                 <div class="col-md-6">
               <mat-form-field appearance="fill">
                 <mat-label>Language</mat-label>
-                <mat-select (selectionChange)="onChange($event)" required>
+                <mat-select (selectionChange)="onChange($event)" required [(value)]=this.profileData.locale>
                   <mat-option *ngFor="let lang of languages" [value]="lang.value" >
                     {{lang.viewValue}}
                   </mat-option>
