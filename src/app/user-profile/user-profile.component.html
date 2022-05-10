@@ -101,10 +101,11 @@
           </div>
         </div>
       </div>
+
     </div>
-    <app-recorded></app-recorded>
+
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-header card-header-danger">
             <h4 class="card-title">Standard Name Pronunciation</h4>
@@ -114,7 +115,7 @@
             <div style=" margin-left: auto;
                           margin-right: auto;
                           width: 50px">
-              <mat-spinner *ngIf="!dataLoaded"></mat-spinner>
+              <mat-spinner [diameter]="50" *ngIf="!dataLoaded"></mat-spinner>
             </div>
             <form *ngIf="dataLoaded">
               <div class="row">
@@ -164,6 +165,16 @@
           </div>
         </div>
       </div>
+      <div class="col-md-6">
+      <app-recorded></app-recorded>
+      </div>
+
+
+
+
+
+
+
 
     </div>
 

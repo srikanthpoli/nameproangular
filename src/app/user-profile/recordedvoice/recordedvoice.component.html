@@ -1,31 +1,64 @@
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header card-header-danger">
-                <h4 class="card-title">Recorded Name Pronunciation</h4>
+<div class="card">
+    <div class="card-header card-header-danger">
+        <h4 class="card-title">Recorded Pronunciation</h4>
 
-            </div>
-            <div class="card-body">
-
-                <div style="text-align:center;" >
-                   <div *ngIf="!fileFound">
-                    <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording" style="cursor: pointer;background-color: green;color: white;font-size: 12pxpx;"> Start Recording </button>
-                    <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording" style="cursor: pointer;background-color: red;color: white;font-size: 12px;"> Stop Recording </button>
-                   </div>
-                    <div class="clearfix"></div>
-
-                    <div style=" margin-left: auto;
+    </div>
+    <div class="card-body">
+        <div style=" margin-left: auto;
                           margin-right: auto;
                           width: 50px">
-                        <mat-spinner  [diameter]="50" *ngIf="fileUploadInProgress"></mat-spinner>
-                    </div>
-                    <mat-spinner [diameter]="50" *ngIf="voiceLoader"></mat-spinner>
-                    <button  mat-raised-button color="primary"
-                            (click)="onPlayStandard()" ><mat-icon>play_arrow</mat-icon>Play</button></div>
-
+            <mat-spinner [diameter]="50" *ngIf="loader"></mat-spinner>
+        </div>
+        <div style="text-align:center;" *ngIf="!loader">
+            <div *ngIf="!fileFound">
+                <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
+                        style="cursor: pointer;background-color: green;color: white;font-size: 12px;"> Start
+                    Recording
+                </button>
+                <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
+                        style="cursor: pointer;background-color: red;color: white;font-size: 12px;"> Stop Recording
+                </button>
             </div>
+            <div class="clearfix"></div>
+
+            <div style=" margin-left: auto;
+                          margin-right: auto;
+                          width: 50px">
+                <mat-spinner [diameter]="50" *ngIf="fileUploadInProgress"></mat-spinner>
+            </div>
+            <mat-spinner [diameter]="50" *ngIf="voiceLoader"></mat-spinner>
+            <div *ngIf="fileFound">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button mat-raised-button color="primary"
+                                (click)="onPlayStandard()">
+                            <mat-icon>play_arrow</mat-icon>
+                            Play
+                        </button>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button mat-raised-button color="warn"
+                                (click)="onDelete()">
+                            <mat-icon>delete</mat-icon>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                <div style="    text-align: left; margin-top: 10px;
+    font-weight: 500;
+    margin-left: 10px;" class="row">
+                    Click on 'Play' to play back the preferred name pronunciation that is set by user.
+                </div>
+                <div style="    text-align: left;
+    font-weight: 500;
+    margin-left: 10px;" class="row">
+                    Name recorded by-<span style="font-style: italic;  font-weight: 1000"> Srikanth, Polisetty on 10-May-2022</span>
+                </div>
             </div>
         </div>
-    </div>
 
+
+    </div>
+</div>
 
