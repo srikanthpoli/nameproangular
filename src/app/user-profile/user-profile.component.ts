@@ -1,4 +1,4 @@
-import { UserService } from './../service/user.service';
+import {UserService} from './../service/user.service';
 import {Router} from '@angular/router';
 import {AuthService} from './../service/auth.service';
 import {Component, OnInit} from '@angular/core';
@@ -38,27 +38,31 @@ export class UserProfileComponent implements OnInit {
     genderName = '';
     notSelectedValidationFailed = true;
     playbackcount: any = 0;
-    profileData:any;
+    profileData: any;
 
 
     constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router,
-        private userService:UserService,
-    private http: HttpClient) {
-
+                private userService: UserService,
+                private http: HttpClient) {
+    }
 
     ngOnInit() {
         this.userService.loadUserData().subscribe(res => {
             this.profileData = res;
+            this.getVoiceListData();
         });
+
+    }
+    getVoiceListData() {
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
-                 this.datalocal = data;
+                this.datalocal = data;
                 this.languages = [];
                 this.voiceList = [];
                 console.log(data);
                 // tslint:disable-next-line:no-shadowed-variable
                 this.datalocal.forEach((element) => {
-                    if (element.LocaleName.indexOf('India') > -1 || element.LocaleName.indexOf('English') >  -1) {
+                    if (element.LocaleName.indexOf('India') > -1 || element.LocaleName.indexOf('English') > -1) {
                         if (!(this.voiceList.includes(element.Locale + ':' + element.LocaleName))) {
                             this.voiceList.push(element.Locale + ':' + element.LocaleName)
                         }
@@ -67,19 +71,34 @@ export class UserProfileComponent implements OnInit {
 
                 // tslint:disable-next-line:no-shadowed-variable
                 this.voiceList.forEach((element) => {
-                    this.languages.push({value : element.substring(0, element.indexOf(':', 0))  ,
-                        viewValue:     element.substring(element.indexOf(':', 0) + 1)    });
+                    this.languages.push({
+                        value: element.substring(0, element.indexOf(':', 0)),
+                        viewValue: element.substring(element.indexOf(':', 0) + 1)
+                    });
                 });
 
-                this.http.get(GlobalConstants.URL + 'employee/sound/count/1989197').
-                    subscribe(data => {
-                        this.playbackcount = data;
+                if (this.profileData.locale !== null && this.profileData.locale !== '') {
+
+                    this.languageName =  this.profileData.locale;
+                    this.runValidation();
+                    this.voiceNames = [];
+                    this.datalocal.forEach(voicelist => {
+                        if (voicelist.Locale === this.profileData.locale) {
+                            this.voiceNames.push({
+                                value: voicelist.ShortName + ':' + voicelist.Gender,
+                                viewValue: voicelist.DisplayName + ' (' + voicelist.VoiceType + ')',
+                                gender: voicelist.Gender
+                            });
+                        }
+                        ;
+                    });
+                }
+
+                this.http.get(GlobalConstants.URL + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
+                    this.playbackcount = count;
                     this.dataLoaded = true;
                     console.log(this.languages);
                 });
-
-
-
 
 
             }
@@ -100,7 +119,8 @@ export class UserProfileComponent implements OnInit {
                     viewValue: data.DisplayName + ' (' + data.VoiceType + ')',
                     gender: data.Gender
                 });
-            };
+            }
+            ;
         });
     }
 
@@ -109,16 +129,22 @@ export class UserProfileComponent implements OnInit {
         this.voiceLoader = true;
         const audio = new Audio();
 
-        audio.src = GlobalConstants.URL + 'texttospeech/download?employeeName=' +
-            'Srikanth Polisetty&gender=' + this.genderName + '&lang=' + this.languageName + '&voiceName=' + this.shortName;
+        audio.src = GlobalConstants.URL +
+            'employee/download?employeeId=' + this.profileData.employeeid +
+            '&employeeName=' + this.profileData.preferedname
+             + '&gender=' + this.genderName + '&lang=' +
+            this.languageName + '&voiceName=' + this.shortName;
+
         audio.load();
         audio.play();
-       this.setTimeout();
+        this.setTimeout();
 
     }
 
     setTimeout() {
-        setTimeout(() => { this.voiceLoader = false }, 7000)
+        setTimeout(() => {
+            this.voiceLoader = false
+        }, 7000)
     }
 
     onChangeofVoice(data: MatSelectChange) {
@@ -131,7 +157,8 @@ export class UserProfileComponent implements OnInit {
         this.runValidation();
 
     }
-     runValidation() {
+
+    runValidation() {
         if (this.shortName !== '' && this.languageName !== '') {
             this.notSelectedValidationFailed = false;
         } else {
