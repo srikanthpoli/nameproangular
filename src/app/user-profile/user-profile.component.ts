@@ -1,9 +1,11 @@
-import { UserService } from './../service/user.service';
+import {UserService} from './../service/user.service';
 import {Router} from '@angular/router';
 import {AuthService} from './../service/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {TextToSpeechService} from '../service/text-to-speech-service';
 import {MatSelectChange} from '@angular/material/select';
+import {HttpClient} from '@angular/common/http';
+import {GlobalConstants} from '../common/global-constants';
 
 interface Language {
     value: string;
@@ -35,26 +37,32 @@ export class UserProfileComponent implements OnInit {
     languageName = '';
     genderName = '';
     notSelectedValidationFailed = true;
-    profileData:any;
+    playbackcount: any = 0;
+    profileData: any;
 
 
     constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router,
-        private userService:UserService) {
+                private userService: UserService,
+                private http: HttpClient) {
     }
 
     ngOnInit() {
         this.userService.loadUserData().subscribe(res => {
             this.profileData = res;
+            this.getVoiceListData();
         });
+
+    }
+    getVoiceListData() {
         this.textToSpeechService.getVoiceList().subscribe(
             data => {
-                 this.datalocal = data;
+                this.datalocal = data;
                 this.languages = [];
                 this.voiceList = [];
                 console.log(data);
                 // tslint:disable-next-line:no-shadowed-variable
                 this.datalocal.forEach((element) => {
-                    if (element.LocaleName.indexOf('India') > -1 || element.LocaleName.indexOf('English') >  -1) {
+                    if (element.LocaleName.indexOf('India') > -1 || element.LocaleName.indexOf('English') > -1) {
                         if (!(this.voiceList.includes(element.Locale + ':' + element.LocaleName))) {
                             this.voiceList.push(element.Locale + ':' + element.LocaleName)
                         }
@@ -63,13 +71,34 @@ export class UserProfileComponent implements OnInit {
 
                 // tslint:disable-next-line:no-shadowed-variable
                 this.voiceList.forEach((element) => {
-                    this.languages.push({value : element.substring(0, element.indexOf(':', 0))  ,
-                        viewValue:     element.substring(element.indexOf(':', 0) + 1)    });
+                    this.languages.push({
+                        value: element.substring(0, element.indexOf(':', 0)),
+                        viewValue: element.substring(element.indexOf(':', 0) + 1)
+                    });
                 });
-                this.dataLoaded = true;
-                console.log(this.languages);
 
+                if (this.profileData.locale !== null && this.profileData.locale !== '') {
 
+                    this.languageName =  this.profileData.locale;
+                    this.runValidation();
+                    this.voiceNames = [];
+                    this.datalocal.forEach(voicelist => {
+                        if (voicelist.Locale === this.profileData.locale) {
+                            this.voiceNames.push({
+                                value: voicelist.ShortName + ':' + voicelist.Gender,
+                                viewValue: voicelist.DisplayName + ' (' + voicelist.VoiceType + ')',
+                                gender: voicelist.Gender
+                            });
+                        }
+                        ;
+                    });
+                }
+
+                this.http.get(GlobalConstants.URL + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
+                    this.playbackcount = count;
+                    this.dataLoaded = true;
+                    console.log(this.languages);
+                });
 
 
             }
@@ -90,7 +119,8 @@ export class UserProfileComponent implements OnInit {
                     viewValue: data.DisplayName + ' (' + data.VoiceType + ')',
                     gender: data.Gender
                 });
-            };
+            }
+            ;
         });
     }
 
@@ -99,16 +129,22 @@ export class UserProfileComponent implements OnInit {
         this.voiceLoader = true;
         const audio = new Audio();
 
-        audio.src = 'https://nameprobyorion.azurewebsites.net/texttospeech/download?employeeName=' +
-            'Srikanth Polisetty&gender=' + this.genderName + '&lang=' + this.languageName + '&voiceName=' + this.shortName;
+        audio.src = GlobalConstants.URL +
+            'employee/download?employeeId=' + this.profileData.employeeid +
+            '&employeeName=' + this.profileData.preferedname
+             + '&gender=' + this.genderName + '&lang=' +
+            this.languageName + '&voiceName=' + this.shortName;
+
         audio.load();
         audio.play();
-       this.setTimeout();
+        this.setTimeout();
 
     }
 
     setTimeout() {
-        setTimeout(() => { this.voiceLoader = false }, 7000)
+        setTimeout(() => {
+            this.voiceLoader = false
+        }, 7000)
     }
 
     onChangeofVoice(data: MatSelectChange) {
@@ -121,7 +157,8 @@ export class UserProfileComponent implements OnInit {
         this.runValidation();
 
     }
-     runValidation() {
+
+    runValidation() {
         if (this.shortName !== '' && this.languageName !== '') {
             this.notSelectedValidationFailed = false;
         } else {

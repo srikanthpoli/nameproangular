@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import * as RecordRTC from 'recordrtc'
+import {GlobalConstants} from '../../common/global-constants';
 
 @Component({
   selector: 'app-recorded',
@@ -11,7 +12,7 @@ import * as RecordRTC from 'recordrtc'
 export class RecordedvoiceComponent implements OnInit {
   title = 'micRecorder';
   fileUploadInProgress = false;
-  fileFound: boolean = false;
+  fileFound = false;
   employeeID = 1989197;
 
   // Lets declare Record OBJ
@@ -31,7 +32,7 @@ export class RecordedvoiceComponent implements OnInit {
   ngOnInit() {
     this.fileFound = false;
     this.loader = true;
-    this.http.get('http://localhost:8080/employee/sound/' + this.employeeID)
+    this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
         .subscribe(data => {
           console.log('data here' + JSON.stringify(data));
           if (data) {
@@ -84,7 +85,7 @@ export class RecordedvoiceComponent implements OnInit {
    */
   stopRecording() {
     this.recording = false;
-    this.fileUploadInProgress = true;
+    this.loader = true;
     this.record.stop(this.processRecording.bind(this));
   }
 
@@ -108,12 +109,13 @@ export class RecordedvoiceComponent implements OnInit {
   send (audioFile: File) {
     const formData: FormData = new FormData();
     formData.append('file', audioFile, 'Recorded-' + this.employeeID + '.wav');
-    this.http.post(   'http://localhost:8080/employee/uploadSound/' + this.employeeID
+    this.http.post(   GlobalConstants.URL + 'employee/sound/' + this.employeeID
         , formData, {responseType: 'blob'}).subscribe(data => {
-          this.fileUploadInProgress = false;
+          this.loader = false;
           this.urlRecorded =
-              'http://nameprobyorion.azurewebsites.net' +
-              '/blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
+              GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
+
+          this.fileFound = true;
 
     });
 
@@ -132,13 +134,26 @@ export class RecordedvoiceComponent implements OnInit {
   onPlayStandard() {
 
     const audio = new Audio();
-    this.voiceLoader = true;
-    audio.src = 'http://nameprobyorion.azurewebsites.net/blob/getBlob?blobName=Recorded-1989197.wav';
+    this.loader = true;
+    audio.src = GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-1989197.wav';
     audio.load();
     audio.play();
     this.setTimeout();
   }
   setTimeout() {
-    setTimeout(() => { this.voiceLoader = false }, 7000)
+    setTimeout(() => { this.loader = false }, 5000)
+  }
+
+  onDelete() {
+    this.loader = true;
+    this.http.delete(GlobalConstants.URL + 'employee/sound/' + this.employeeID,{
+      responseType: 'blob'
+    })
+        .subscribe(data => {
+          this.loader = false;
+          this.fileFound  = false;
+        })
+
+
   }
 }
