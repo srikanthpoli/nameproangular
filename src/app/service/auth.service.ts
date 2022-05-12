@@ -18,7 +18,7 @@ export class AuthService {
     let loggedInUser: any = { 'userId': 'none', 'password': 'none', 'roles': [] }
       let isLoggedIn = false;
     GlobalConstants.users.forEach(element => {
-      if (element.userId === userId && element.password === password) {
+      if (element.userId.toLowerCase() === userId.toLowerCase() && element.password.toLowerCase() === password.toLowerCase()) {
         loggedInUser = element;
         isLoggedIn = true;
 
