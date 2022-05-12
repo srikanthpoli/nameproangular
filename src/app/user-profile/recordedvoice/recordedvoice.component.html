@@ -108,7 +108,7 @@
                     {{this.recordedData?.reason}}</span>
                 </div>
 
-                <div *ngIf="this.recordedData?.status === 'Pending'" class="row" style="margin-top: 15px;
+                <div *ngIf="this.recordedData?.status === 'Pending' && this.isAdmin" class="row" style="margin-top: 15px;
                     margin-left: 1px">
                     <div class="col-md-4">
                         <button mat-raised-button color="primary"

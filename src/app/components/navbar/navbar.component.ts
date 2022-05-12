@@ -142,15 +142,15 @@ export class NavbarComponent implements OnInit {
         this.authService.logout();
     }
 
-    @ViewChild("something") something: ElementRef;
-    source: any;
-    ngAfterViewInit(): void {
-        this.source = fromEvent(this.something.nativeElement, 'keyup');
-        this.source.pipe(debounceTime(1200)).subscribe(c => {
-            console.log("This is hit");
-        }
-        );
-    }
+    // @ViewChild("something") something: ElementRef;
+    // source: any;
+    // ngAfterViewInit(): void {
+    //     this.source = fromEvent(this.something.nativeElement, 'keyup');
+    //     this.source.pipe(debounceTime(1200)).subscribe(c => {
+    //         console.log("This is hit");
+    //     }
+    //     );
+    // }
 
     searchConfigTree() {
 
