@@ -28,7 +28,7 @@ export class AuthService {
     const user = new User(loggedInUser.userId, loggedInUser.password, loggedInUser.roles);
     this.user.next(user);
     localStorage.setItem('userData', JSON.stringify(user));
-    return user;
+    return isLoggedIn;
 
   }
 

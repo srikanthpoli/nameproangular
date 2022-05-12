@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
-declare const $: any;
+declare const $: any
+
 declare interface RouteInfo {
     path: string;
     title: string;
@@ -8,8 +10,8 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
-    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
+    { path: '/user-profile', title: 'Dashboard',  icon: 'person', class: '' },
+    { path: '/dashboard', title: 'Admin',  icon: 'dashboard', class: '' },
 
     // { path: '/table-list', title: 'Table List',  icon:'content_paste', class: '' },
     // { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
@@ -26,11 +28,17 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
+    loggedInUser: any;
+    isAdmin : any;
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+      this.isAdmin = JSON.parse(localStorage.getItem('userData')).roles.includes('ADMIN') ? true : false;
+
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+      this.loggedInUser = JSON.parse(localStorage.getItem('userData'))
+      console.log('menu data' + JSON.stringify(this.menuItems))
   }
   isMobileMenu() {
       if ($(window).width() > 991) {
@@ -38,4 +46,15 @@ export class SidebarComponent implements OnInit {
       }
       return true;
   };
+
+    onClick(title: any) {
+        if (title === 'Dashboard') {
+            this.router.navigate(['/user-profile'], { relativeTo: this.route ,
+                queryParams: { userId: this.loggedInUser.userId }},
+            );
+        } else {
+            this.router.navigate(['/dashboard']
+            );
+        }
+    }
 }

@@ -55,10 +55,16 @@
     </ul>
   </div>
     <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
+        <li routerLinkActive="active"  class="nav-item">
+            <a class="nav-link" style="cursor: pointer" (click)="onClick('Dashboard')">
+                <i class="material-icons">person</i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+        <li *ngIf="this.isAdmin" routerLinkActive="active"  class="nav-item">
+            <a class="nav-link" style="cursor: pointer" (click)="onClick('Admin')">
+                <i class="material-icons">dashboard</i>
+                <p>Admin</p>
             </a>
         </li>
     </ul>
