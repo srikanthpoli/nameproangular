@@ -32,7 +32,7 @@ export class LoginPageComponent implements OnInit {
     const result = this.authService.login(this.LoginForm.value.userId, this.LoginForm.value.password);
     if (result) {
 
-      this.router.navigate(['/user-profile'])
+      this.router.navigate(['/user-profile'] ,{queryParams: {userId: this.LoginForm.value.userId}});
     } else {
       this.incorrectLogin = true;
     }

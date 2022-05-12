@@ -29,7 +29,7 @@ import {RecordedvoiceComponent} from '../../user-profile/recordedvoice/recordedv
         MatTooltipModule,
         MatProgressSpinnerModule,
         MatIconModule
-    ],
+            ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
