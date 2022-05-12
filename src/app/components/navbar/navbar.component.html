@@ -12,16 +12,33 @@
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form class="navbar-form" *ngIf="usersLoaded">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search..."> 
-                    <mat-autocomplete>
-                        <mat-option *ngFor="let userInfo of users | async" [value]="userInfo.userid">
-                            {{userInfo.userid}}
-                        </mat-option>
-                    </mat-autocomplete>
-                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
-                        <i class="material-icons">search</i>
-                        <div class="ripple-container"></div>
-                    </button>
+
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>State</mat-label>
+                        <input matInput
+                               aria-label="State"
+                               [matAutocomplete]="auto"
+                               >
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let user of users " [value]="user.userid">
+                                <img class="example-option-img" aria-hidden [src]="user.imageurl" height="25">
+                                <span>{{user.userid}}</span> |
+
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+
+<!--                    <input type="text" value="" class="form-control" placeholder="Search..."> -->
+<!--                    <mat-autocomplete>-->
+<!--                        <mat-option *ngFor="let userInfo of users " [value]="userInfo.userid">-->
+<!--                            {{userInfo.userid}}-->
+<!--                        </mat-option>-->
+<!--                    </mat-autocomplete>-->
+<!--                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">-->
+<!--                        <i class="material-icons">search</i>-->
+<!--                        <div class="ripple-container"></div>-->
+<!--                    </button>-->
                 </div>
             </form>
             <ul class="navbar-nav">
