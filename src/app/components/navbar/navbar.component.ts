@@ -27,10 +27,10 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit(){
-        this.usersLoaded=false;
+        
        this.userService.loadUsers().subscribe(res=>{this.users=res;
         console.log(this.users);
-        this.usersLoaded=true;});
+        this.usersLoaded=!this.usersLoaded;});
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;
       this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
