@@ -15,14 +15,15 @@
 
 
                         <mat-label style="    margin-top: 3px;    margin-right: 6px">Search</mat-label>
-                        <input matInput
+                        <input matInput style="width: 300px"
                                aria-label="State"
                                [matAutocomplete]="auto"
+                               (input)="searchChange($event.target.value, true)"
                                >
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let user of users " [value]="user.userid">
+                        <mat-autocomplete style="width: 300px" #auto="matAutocomplete">
+                            <mat-option *ngFor="let user of users  " [value]="user.userid">
                                 <img class="example-option-img" aria-hidden [src]="user.imageurl" height="25">
-                                <span>{{user.userid}}</span> |
+                                <span>{{user.userid}}</span> | <span>{{user.fullname}}</span>
 
                             </mat-option>
                         </mat-autocomplete>

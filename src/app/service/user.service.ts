@@ -17,4 +17,8 @@ export class UserService {
   loadUsers() {
     return this.http.get<any>(GlobalConstants.URL + '/employee/list')
   }
+
+  loadUsersBYSearch(text: string) {
+    return this.http.get<any>(GlobalConstants.URL + '/employee/search/'+ text)
+  }
 }
