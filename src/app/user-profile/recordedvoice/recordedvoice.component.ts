@@ -108,6 +108,7 @@ export class RecordedvoiceComponent implements OnInit {
         formData.append('Recorded-' + this.employeeID + '.wav', blob);
 
         this.send(blob);
+        this.recordedData.status = "Pending";
 
     }
 
@@ -140,10 +141,11 @@ export class RecordedvoiceComponent implements OnInit {
 
         const audio = new Audio();
         this.loader = true;
-        audio.src = GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-1989197.wav';
+        audio.src = GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
         audio.load();
         audio.play();
-        this.setTimeout();
+        this.setTimeout()
+
     }
 
     setTimeout() {
@@ -174,6 +176,32 @@ export class RecordedvoiceComponent implements OnInit {
                 'approvalEmployeeId': 1989197,
                 'approved': 1,
                 'reason': '',
+            }, {responseType: 'blob'})
+            .subscribe(data => {
+                this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
+                    .subscribe((localdata: any) => {
+                        console.log('data here' + JSON.stringify(localdata));
+                        if (localdata) {
+                            this.recordedData = localdata
+                        }
+                        this.loader = false;
+                        this.fileFound = true;
+                    });
+
+            });
+    }
+
+
+
+    onDecline() {
+        this.loader = true;
+
+        this.http.post(GlobalConstants.URL + 'employee/sound/approve',
+            {
+                'employeeId': this.employeeID,
+                'approvalEmployeeId': 1989197,
+                'approved': 0,
+                'reason': 'declined',
             }, {responseType: 'blob'})
             .subscribe(data => {
                 this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)

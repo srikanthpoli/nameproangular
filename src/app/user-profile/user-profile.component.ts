@@ -48,7 +48,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        let routeUser:any;
+        let routeUser: any;
         this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
@@ -103,11 +103,11 @@ export class UserProfileComponent implements OnInit {
                     });
                 }
                 this.dataLoaded = true;
-                // this.http.get(GlobalConstants.URL1 + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
-                //     this.playbackcount = count;
-                //     this.dataLoaded = true;
-                //     console.log(this.languages);
-                // });
+                 this.http.get(GlobalConstants.URL + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
+                     this.playbackcount = count;
+                     this.dataLoaded = true;
+                    console.log(this.languages);
+                });
 
 
             }
@@ -147,6 +147,12 @@ export class UserProfileComponent implements OnInit {
         audio.load();
         audio.play();
         this.setTimeout();
+
+        this.http.get(GlobalConstants.URL + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
+            this.playbackcount = count;
+
+            console.log(this.languages);
+        });
 
     }
 

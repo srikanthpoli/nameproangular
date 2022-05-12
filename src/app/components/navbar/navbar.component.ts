@@ -1,10 +1,11 @@
 import { UserService } from './../../service/user.service';
 import { GlobalConstants } from './../../common/global-constants';
 import { AuthService } from './../../service/auth.service';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router } from '@angular/router';
+import {debounceTime, fromEvent} from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     users:any=[];
+    usersCopy:any=[];
     usersLoaded=false;
     
     constructor(location: Location,  private element: ElementRef, private router: Router,private authService:AuthService,
@@ -28,7 +30,8 @@ export class NavbarComponent implements OnInit {
 
     ngOnInit(){
         
-       this.userService.loadUsers().subscribe(res=>{this.users=res;
+       this.userService.loadUsers().subscribe(res=>{this.users=res
+           this.usersCopy=res;
         console.log(this.users);
         this.usersLoaded=!this.usersLoaded;});
       this.listTitles = ROUTES.filter(listTitle => listTitle);
@@ -135,5 +138,57 @@ export class NavbarComponent implements OnInit {
 
     logout() {
         this.authService.logout();
+    }
+
+    @ViewChild("something") something:ElementRef;
+    source: any;
+    ngAfterViewInit(): void {
+        this.source = fromEvent(this.something.nativeElement, 'keyup');
+        this.source.pipe(debounceTime(1200)).subscribe(c =>
+            {
+               console.log("This is hit");
+            }
+        );
+    }
+
+    searchConfigTree() {
+
+    }
+
+    filter= '';
+    private timer: any;
+
+    searchChange(filter: string, to = false) {
+        filter = filter.toLowerCase();
+
+        if (to) {
+            clearTimeout(this.timer);
+
+            this.timer = setTimeout(() => {
+                console.log("This is hit with delay" + filter);
+                this.users=[];
+                this.usersCopy.forEach((loop)=>{
+
+                    if( loop.userid.toLowerCase().indexOf(filter)>-1 ||
+                        loop.fullname.toLowerCase().indexOf(filter)>-1
+                    )
+                    {
+                        this.users.push(loop);
+                    };
+
+
+                });
+                console.log(this.users);
+
+                    // this.userService.loadUsersBYSearch(filter).subscribe(
+                    //     (data: any)=>{
+                    //         this.users=data;
+                    //         console.log("This is hit without delay" + filter)
+                    //     }
+                    // );
+            }, 100);
+        } else {
+            console.log("This is hit without delay" + filter)
+        }
     }
 }

@@ -13,20 +13,21 @@
             <form class="navbar-form" *ngIf="usersLoaded">
                 <div class="input-group no-border">
 
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>State</mat-label>
-                        <input matInput
+
+                        <mat-label style="    margin-top: 3px;    margin-right: 6px">Search</mat-label>
+                        <input matInput style="width: 300px"
                                aria-label="State"
                                [matAutocomplete]="auto"
+                               (input)="searchChange($event.target.value, true)"
                                >
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let user of users " [value]="user.userid">
+                        <mat-autocomplete style="width: 300px" #auto="matAutocomplete">
+                            <mat-option *ngFor="let user of users  " [value]="user.userid">
                                 <img class="example-option-img" aria-hidden [src]="user.imageurl" height="25">
-                                <span>{{user.userid}}</span> |
+                                <span>{{user.userid}}</span> | <span>{{user.fullname}}</span>
 
                             </mat-option>
                         </mat-autocomplete>
-                    </mat-form-field>
+
 
 
 <!--                    <input type="text" value="" class="form-control" placeholder="Search..."> -->
