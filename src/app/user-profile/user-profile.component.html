@@ -50,13 +50,13 @@
                                 <div class="col-md-4">
                                     <span style="font-weight:1000"><b>Locale :</b></span> <span style="display: inline;
                   position:relative;
-                  margin-left: 20px;
+                  margin-left: 44px;
                   font-weight:500">{{this.profileData.locale}}</span>
                                 </div>
                                 <div class="col-md-8">
                                     <span style="font-weight:1000"><b>Preferred Name :</b></span> <span style="display: inline;
                   position:relative;
-                  margin-left: 30px;
+                  margin-left: 2px;
                   font-weight:500">{{this.profileData.preferedname}}</span>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                                 <div class="col-md-4">
                                     <span style="font-weight:1000"><b> City :</b></span> <span style="display: inline;
                   position:relative;
-                  margin-left: 70px;
+                  margin-left: 61px;
                   font-weight:500">{{this.profileData.city}}</span>
                                 </div>
                                 <div class="col-md-8">
@@ -142,6 +142,14 @@
                         </div>
                         <form *ngIf="dataLoaded">
                             <div class="row">
+                            <div class="col-md-8">
+                                            <span style="font-weight:1000"><b>Preferred Name :</b></span> <span style="display: inline;
+                              position:relative;
+                              margin-left: 2px;
+                              font-weight:500">{{this.profileData.preferedname}}</span>
+                            </div>
+                            </div>
+                            <div class="row"   style="margin-top: 10px">
                                 <div class="col-md-6">
                                     <mat-form-field appearance="fill">
                                         <mat-label>Language</mat-label>
