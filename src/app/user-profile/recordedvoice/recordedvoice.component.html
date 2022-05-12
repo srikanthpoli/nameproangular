@@ -46,18 +46,20 @@
                     </div>
                     <div class="col-md-4">
 
-                        <button mat-raised-button color="primary"
-                                (click)="onApprove()">
-                            <mat-icon>check_circle</mat-icon>
-                            Approve
-                        </button>
-                        <div>
-                            <span style=" font-weight: 1000"> Status:</span> <span
-                                style="font-style: italic;  font-weight: 500; margin-left: 5px">
-                    {{this.recordedData?.status}}</span>
+
+                        <div style="margin-top:10px;margin-left: -44px">
+                            <span style=" font-weight: 1000"> Status:</span>
+
+                            <span [ngStyle]="{'color': this.recordedData?.status === 'Pending'? 'orange' :
+                           ( this.recordedData?.status === 'Approved'? 'Green' : 'red')
+
+                            }"
+                                style="font-style: italic;  font-weight: 500; margin-left: 2px">
+                    {{this.recordedData?.status}}
+
+                        </span>
 
                         </div>
-
 
 
                     </div>
@@ -82,12 +84,50 @@
                     </div>
                 </div>
 
-                <div style="    text-align: left;
+                <div *ngIf="this.recordedData?.status === 'Approved'" style="    text-align: left;
     font-weight: 500;
     margin-left: 10px;" class="row">
                     <span style=" font-weight: 1000">Approved by:</span> <span
                         style="font-style: italic; ; margin-left: 15px; font-weight: 500">
                     {{this.recordedData?.approvedbyname}}</span>
+                </div>
+
+                <div *ngIf="this.recordedData?.status === 'Declined'" style="    text-align: left;
+    font-weight: 500;
+    margin-left: 10px;" class="row">
+                    <span style=" font-weight: 1000">Declined by:</span> <span
+                        style="font-style: italic; ; margin-left: 15px; font-weight: 500">
+                    {{this.recordedData?.approvedbyname}}</span>
+                </div>
+
+                <div *ngIf="this.recordedData?.status === 'Declined'" style="    text-align: left;
+    font-weight: 500;
+    margin-left: 10px;" class="row">
+                    <span style=" font-weight: 1000">Reason:</span> <span
+                        style="font-style: italic; ; margin-left: 15px; font-weight: 500">
+                    {{this.recordedData?.reason}}</span>
+                </div>
+
+                <div *ngIf="this.recordedData?.status === 'Pending'" class="row" style="margin-top: 15px;
+                    margin-left: 1px">
+                    <div class="col-md-4">
+                        <button mat-raised-button color="primary"
+                                style="background-color: green"
+                                (click)="onApprove()">
+                            <mat-icon>check_circle</mat-icon>
+                            Approve
+                        </button>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button mat-raised-button color="primary"
+                                style="background-color: red"
+                                (click)="onDecline()">
+                            <mat-icon>cancel</mat-icon>
+                            Reject
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
