@@ -45,21 +45,23 @@ export class UserProfileComponent implements OnInit {
                 private userService: UserService,
                 private http: HttpClient,
                 private route: ActivatedRoute) {
-    }
-
-    ngOnInit() {
-        let routeUser: any;
+                    let routeUser: any;
         this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
             routeUser = queryParams['userId'] ;
+            this.userService.loadUserData(routeUser).subscribe(res => {
+                this.profileData = res;
+                console.log(this.profileData)
+                this.getVoiceListData();
+            });
           }
         );
-        this.userService.loadUserData(routeUser).subscribe(res => {
-            this.profileData = res;
-            console.log(this.profileData)
-            this.getVoiceListData();
-        });
+       
+    }
+
+    ngOnInit() {
+        
 
     }
     getVoiceListData() {

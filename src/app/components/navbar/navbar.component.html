@@ -21,9 +21,9 @@
                                (input)="searchChange($event.target.value, true)"
                                >
                         <mat-autocomplete style="width: 300px" #auto="matAutocomplete">
-                            <mat-option *ngFor="let user of users  " [value]="user.userid">
+                            <mat-option *ngFor="let user of users  " [value]="user.userid" (click)="onUserClick(user.userid)">
                                 <img class="example-option-img" aria-hidden [src]="user.imageurl" height="25">
-                                <span>{{user.userid}}</span> | <span>{{user.fullname}}</span>
+                                <span >{{user.userid}}</span> | <span>{{user.fullname}}</span>
 
                             </mat-option>
                         </mat-autocomplete>
