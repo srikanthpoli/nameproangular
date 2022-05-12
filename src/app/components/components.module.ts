@@ -6,11 +6,13 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import {RecordedvoiceComponent} from '../user-profile/recordedvoice/recordedvoice.component';
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    MatAutocompleteModule
   ],
   declarations: [
     FooterComponent,

@@ -9,9 +9,12 @@ import {GlobalConstants} from '../common/global-constants';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  loadUserData() {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    return this.http.get<any>(GlobalConstants.URL + 'employee/get/uid/' + userData.userId)
+  loadUserData(userid) {
+    
+    return this.http.get<any>(GlobalConstants.URL + 'employee/get/uid/' + userid)
     .pipe(map(res => res));
+  }
+  loadUsers() {
+    return this.http.get<any>(GlobalConstants.URL + '/employee/list')
   }
 }

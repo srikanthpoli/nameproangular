@@ -1,5 +1,5 @@
 import {UserService} from './../service/user.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from './../service/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {TextToSpeechService} from '../service/text-to-speech-service';
@@ -43,12 +43,21 @@ export class UserProfileComponent implements OnInit {
 
     constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router,
                 private userService: UserService,
-                private http: HttpClient) {
+                private http: HttpClient,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.userService.loadUserData().subscribe(res => {
+        let routeUser:any;
+        this.route.queryParams
+        .subscribe(
+          (queryParams: Params) => {
+            routeUser = queryParams['userId'] ;
+          }
+        );
+        this.userService.loadUserData(routeUser).subscribe(res => {
             this.profileData = res;
+            console.log(this.profileData)
             this.getVoiceListData();
         });
 
@@ -93,12 +102,12 @@ export class UserProfileComponent implements OnInit {
                         ;
                     });
                 }
-
-                this.http.get(GlobalConstants.URL + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
-                    this.playbackcount = count;
-                    this.dataLoaded = true;
-                    console.log(this.languages);
-                });
+                this.dataLoaded = true;
+                // this.http.get(GlobalConstants.URL1 + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
+                //     this.playbackcount = count;
+                //     this.dataLoaded = true;
+                //     console.log(this.languages);
+                // });
 
 
             }
