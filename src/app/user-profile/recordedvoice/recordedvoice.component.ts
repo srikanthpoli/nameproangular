@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import * as RecordRTC from 'recordrtc'
@@ -13,7 +13,8 @@ export class RecordedvoiceComponent implements OnInit {
     title = 'micRecorder';
     fileUploadInProgress = false;
     fileFound = false;
-    employeeID = 1989197;
+    @Input('employeeId') employeeID:any;
+    
 
     // Lets declare Record OBJ
     record: any;
@@ -28,9 +29,11 @@ export class RecordedvoiceComponent implements OnInit {
     isRecordedVoicePresent = false;
     loader = false;
     recordedData: any;
+    isAdmin:any;
 
 
     ngOnInit() {
+      this.isAdmin=JSON.parse(localStorage.getItem('userData')).roles.includes('ADMIN')?true:false;
         this.fileFound = false;
         this.loader = true;
         this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
