@@ -11,7 +11,7 @@ export class UserService {
 
   loadUserData() {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    return this.http.get<any>(GlobalConstants.URL + 'get/uid/' + userData.userId)
+    return this.http.get<any>(GlobalConstants.URL + 'employee/get/uid/' + userData.userId)
     .pipe(map(res => res));
   }
 }
