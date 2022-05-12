@@ -8,5 +8,6 @@ public static users:any =[
 
   ];
 
-  public static URL: any ="https://nameprobyorion.azurewebsites.net/";
+  public static URL: any ="http://nameprobyorion.azurewebsites.net/";
+  public static URL1: any ="https://nameprobyorion.azurewebsites.net/";
 }

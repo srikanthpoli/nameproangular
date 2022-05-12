@@ -1,3 +1,4 @@
+import { UserService } from './../../service/user.service';
 import { GlobalConstants } from './../../common/global-constants';
 import { AuthService } from './../../service/auth.service';
 import { Component, OnInit, ElementRef } from '@angular/core';
@@ -16,15 +17,20 @@ export class NavbarComponent implements OnInit {
       mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
-    users:any;
+    users:any=[];
+    usersLoaded=false;
     
-    constructor(location: Location,  private element: ElementRef, private router: Router,private authService:AuthService) {
+    constructor(location: Location,  private element: ElementRef, private router: Router,private authService:AuthService,
+        private userService:UserService) {
       this.location = location;
           this.sidebarVisible = false;
     }
 
     ngOnInit(){
-        this.users=GlobalConstants.users;
+        this.usersLoaded=false;
+       this.userService.loadUsers().subscribe(res=>{this.users=res;
+        console.log(this.users);
+        this.usersLoaded=true;});
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;
       this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
