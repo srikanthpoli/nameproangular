@@ -141,10 +141,11 @@ export class RecordedvoiceComponent implements OnInit {
 
         const audio = new Audio();
         this.loader = true;
-        audio.src = GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-1989197.wav';
+        audio.src = GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
         audio.load();
         audio.play();
-        this.setTimeout();
+        this.setTimeout()
+
     }
 
     setTimeout() {
