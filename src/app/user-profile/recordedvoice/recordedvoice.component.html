@@ -44,6 +44,23 @@
                             Delete
                         </button>
                     </div>
+                    <div class="col-md-4">
+
+                        <button mat-raised-button color="primary"
+                                (click)="onApprove()">
+                            <mat-icon>check_circle</mat-icon>
+                            Approve
+                        </button>
+                        <div>
+                            <span style=" font-weight: 1000"> Status:</span> <span
+                                style="font-style: italic;  font-weight: 500; margin-left: 5px">
+                    {{this.recordedData?.status}}</span>
+
+                        </div>
+
+
+
+                    </div>
                 </div>
                 <div style="    text-align: left; margin-top: 10px;
     font-weight: 500;
@@ -53,20 +70,24 @@
                 <div style="    text-align: left;
     font-weight: 500;
     margin-left: 10px;" class="row">
-                    <span style=" font-weight: 1000"> Recorded by:</span> <span style="font-style: italic;  font-weight: 500; margin-left: 15px"> Srikanth, Polisetty</span>
+                    <span style=" font-weight: 1000"> Recorded by:</span> <span
+                        style="font-style: italic;  font-weight: 500; margin-left: 15px">
+                    {{this.recordedData?.recordedbyname}}</span>
 
                     <div style="    text-align: left;
     font-weight: 500;
-    margin-left: 10px;" >
+    margin-left: 10px;">
                         <span style=" font-weight: 1000">  Recorded on:</span> <span style="font-style: italic;
-                     font-weight: 500; margin-left: 15px">10-May-2022</span>
+                     font-weight: 500; margin-left: 15px">{{this.recordedData?.recordedbydate | date:'dd/MM/yyyy'}}</span>
                     </div>
                 </div>
 
                 <div style="    text-align: left;
     font-weight: 500;
     margin-left: 10px;" class="row">
-                    <span style=" font-weight: 1000">Approved by:</span> <span style="font-style: italic; ; margin-left: 15px; font-weight: 500">Vasudha, Karri</span>
+                    <span style=" font-weight: 1000">Approved by:</span> <span
+                        style="font-style: italic; ; margin-left: 15px; font-weight: 500">
+                    {{this.recordedData?.approvedbyname}}</span>
                 </div>
             </div>
         </div>
