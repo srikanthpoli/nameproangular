@@ -4,7 +4,7 @@ import { AuthService } from './../../service/auth.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { debounceTime, fromEvent } from 'rxjs';
 
 @Component({
@@ -21,15 +21,18 @@ export class NavbarComponent implements OnInit {
     users: any = [];
     usersCopy: any = [];
     usersLoaded = false;
+    loggedInUser: any;
 
     constructor(location: Location, private element: ElementRef, private router: Router, private authService: AuthService,
-        private userService: UserService) {
+        private userService: UserService,
+                private route: ActivatedRoute) {
         this.location = location;
         this.sidebarVisible = false;
     }
 
     ngOnInit() {
-
+        this.loggedInUser= JSON.parse(localStorage.getItem('userData'));
+        console.log('Logged oin user is'+JSON.stringify(this.loggedInUser));
         this.userService.loadUsers().subscribe(res => {
             this.users = res
             this.usersCopy = res;
@@ -193,6 +196,11 @@ export class NavbarComponent implements OnInit {
     }
 
     onUserClick(userid: any) {
-        this.router.navigate(['/user-profile'], { queryParams: { userId: userid }, skipLocationChange: true });
+
+        console.log('This userID is'+ userid)
+        this.router.navigate(['/user-profile'], { relativeTo: this.route ,
+                queryParams: { userId: userid }},
+            );
+        // this.router.navigate(['/user-profile'], { queryParams: { userId: userid }, skipLocationChange: true });
     }
 }

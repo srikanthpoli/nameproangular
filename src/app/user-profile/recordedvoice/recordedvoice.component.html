@@ -10,7 +10,7 @@
             <mat-spinner [diameter]="50" *ngIf="loader"></mat-spinner>
         </div>
         <div style="text-align:center;" *ngIf="!loader">
-            <div *ngIf="!fileFound">
+            <div *ngIf="!fileFound && (this.isLoggedInUser || this.isAdmin)">
                 <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
                         style="cursor: pointer;background-color: green;color: white;font-size: 12px;"> Start
                     Recording
@@ -27,7 +27,7 @@
                 <mat-spinner [diameter]="50" *ngIf="fileUploadInProgress"></mat-spinner>
             </div>
             <mat-spinner [diameter]="50" *ngIf="voiceLoader"></mat-spinner>
-            <div *ngIf="fileFound">
+            <div *ngIf="showRecording()">
                 <div class="row">
                     <div class="col-md-4">
                         <button mat-raised-button color="primary"
@@ -37,7 +37,7 @@
                         </button>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4" *ngIf="this.isAdmin  || this.isLoggedInUser">
                         <button mat-raised-button color="warn"
                                 (click)="onDelete()">
                             <mat-icon>delete</mat-icon>
@@ -128,6 +128,11 @@
                         </button>
                     </div>
 
+                </div>
+            </div>
+            <div *ngIf="!showRecording()">
+                <div class="row" style="margin: auto;    font-weight: 500x">
+                    There is No custom pronunciation set!
                 </div>
             </div>
         </div>

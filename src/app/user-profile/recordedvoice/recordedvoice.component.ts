@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import * as RecordRTC from 'recordrtc'
@@ -9,12 +9,13 @@ import {GlobalConstants} from '../../common/global-constants';
     templateUrl: './recordedvoice.component.html',
     styleUrls: ['./recordedvoice.component.scss']
 })
-export class RecordedvoiceComponent implements OnInit {
+export class RecordedvoiceComponent implements OnInit, OnChanges {
     title = 'micRecorder';
     fileUploadInProgress = false;
     fileFound = false;
-    @Input('employeeId') employeeID:any;
-    
+    @Input('employeeId') employeeID: any;
+    @Input('userid') userid: any;
+
 
     // Lets declare Record OBJ
     record: any;
@@ -29,11 +30,16 @@ export class RecordedvoiceComponent implements OnInit {
     isRecordedVoicePresent = false;
     loader = false;
     recordedData: any;
-    isAdmin:any;
+    isAdmin: any;
+    isLoggedInUser: any;
+    loggedInUser: any;
 
 
     ngOnInit() {
-      this.isAdmin=JSON.parse(localStorage.getItem('userData')).roles.includes('ADMIN')?true:false;
+
+      this.isAdmin = JSON.parse(localStorage.getItem('userData')).roles.includes('ADMIN') ? true : false;
+      this.loggedInUser = JSON.parse(localStorage.getItem('userData'));
+      this.isLoggedInUser = this.userid == this.loggedInUser.userId ? true : false;
         this.fileFound = false;
         this.loader = true;
         this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
@@ -111,7 +117,7 @@ export class RecordedvoiceComponent implements OnInit {
         formData.append('Recorded-' + this.employeeID + '.wav', blob);
 
         this.send(blob);
-        this.recordedData.status = "Pending";
+
 
     }
 
@@ -120,11 +126,15 @@ export class RecordedvoiceComponent implements OnInit {
         formData.append('file', audioFile, 'Recorded-' + this.employeeID + '.wav');
         this.http.post(GlobalConstants.URL + 'employee/sound/' + this.employeeID
             , formData, {responseType: 'blob'}).subscribe(data => {
-            this.loader = false;
+         ;
             this.urlRecorded =
                 GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
-
+            console.log("recorded data is" + JSON.stringify(data) )
+            this.recordedData.status = 'Pending'
+            this.recordedData.recordedbydate = new Date();
+            this.recordedData.recordedbyname = this.loggedInUser.userId;
             this.fileFound = true;
+            this.loader = false
 
         });
 
@@ -194,8 +204,29 @@ export class RecordedvoiceComponent implements OnInit {
             });
     }
 
+    ngOnChanges() {
+        // create header using child_id
+        console.log(this.employeeID);
+
+        this.isLoggedInUser = this.userid == this.loggedInUser.userId ? true : false;
+        this.loader = true;
+        this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
+            .subscribe((data: any) => {
+                console.log('data here' + JSON.stringify(data));
+                if (data) {
+                    this.recordedData = data;
+                    this.fileFound = true;
 
 
+                }
+                this.loader = false;
+            });
+    }
+
+showRecording() {
+    return (this.fileFound && (this.isLoggedInUser || this.isAdmin))
+    || (this.fileFound && !this.isLoggedInUser && this.recordedData?.status === 'Approved')
+}
     onDecline() {
         this.loader = true;
 

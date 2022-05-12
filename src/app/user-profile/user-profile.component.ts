@@ -38,18 +38,24 @@ export class UserProfileComponent implements OnInit {
     genderName = '';
     notSelectedValidationFailed = true;
     playbackcount: any = 0;
-    profileData: any;
+    profileData: any
+    loggedInUser: any;
 
 
     constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router,
                 private userService: UserService,
                 private http: HttpClient,
                 private route: ActivatedRoute) {
+        this.loggedInUser = JSON.parse(localStorage.getItem('userData'));
                     let routeUser: any;
         this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
+              this.dataLoaded = false;
             routeUser = queryParams['userId'] ;
+            if (routeUser == null) {
+                routeUser = this.loggedInUser.userId;
+            }
             this.userService.loadUserData(routeUser).subscribe(res => {
                 this.profileData = res;
                 console.log(this.profileData)
@@ -57,11 +63,13 @@ export class UserProfileComponent implements OnInit {
             });
           }
         );
-       
+
     }
 
+
+
     ngOnInit() {
-        
+
 
     }
     getVoiceListData() {

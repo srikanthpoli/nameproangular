@@ -142,12 +142,12 @@
                         </div>
                         <form *ngIf="dataLoaded">
                             <div class="row">
-                            <div class="col-md-8">
-                                            <span style="font-weight:1000"><b>Preferred Name :</b></span> <span style="display: inline;
+                                <div class="col-md-8">
+                                    <span style="font-weight:1000"><b>Preferred Name :</b></span> <span style="display: inline;
                               position:relative;
                               margin-left: 2px;
                               font-weight:500">{{this.profileData.preferedname}}</span>
-                            </div>
+                                </div>
                             </div>
                             <div class="row"   style="margin-top: 10px">
                                 <div class="col-md-6">
@@ -201,19 +201,39 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <app-recorded [employeeId]="this.profileData.employeeid"></app-recorded>
+            <div class="col-md-6" *ngIf="dataLoaded">
+                <app-recorded [employeeId]="this.profileData.employeeid"
+                              [userid]="this.profileData.userid"></app-recorded>
 
             </div>
-            <div style="margin-left: 24px;
-                color: green;
-                 font-weight: 500">
-                Playback count: {{playbackcount}}
 
+            <div class="col-md-6" *ngIf="!dataLoaded">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Recorded Pronunciation</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <div style=" margin-left: auto;
+                          margin-right: auto;
+                          width: 50px">
+                            <mat-spinner [diameter]="50" *ngIf="!dataLoaded"></mat-spinner>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
+        <div style="margin-left: 24px;
+                color: green;
+                 font-weight: 500">
+            Playback count: {{playbackcount}}
 
+        </div>
 
     </div>
+
+
 </div>
+
+
