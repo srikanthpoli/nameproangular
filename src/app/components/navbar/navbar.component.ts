@@ -1,56 +1,58 @@
 import { UserService } from './../../service/user.service';
 import { GlobalConstants } from './../../common/global-constants';
 import { AuthService } from './../../service/auth.service';
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
-import {debounceTime, fromEvent} from 'rxjs';
+import { debounceTime, fromEvent } from 'rxjs';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
     private listTitles: any[];
     location: Location;
-      mobile_menu_visible: any = 0;
+    mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
-    users:any=[];
-    usersCopy:any=[];
-    usersLoaded=false;
-    
-    constructor(location: Location,  private element: ElementRef, private router: Router,private authService:AuthService,
-        private userService:UserService) {
-      this.location = location;
-          this.sidebarVisible = false;
+    users: any = [];
+    usersCopy: any = [];
+    usersLoaded = false;
+
+    constructor(location: Location, private element: ElementRef, private router: Router, private authService: AuthService,
+        private userService: UserService) {
+        this.location = location;
+        this.sidebarVisible = false;
     }
 
-    ngOnInit(){
-        
-       this.userService.loadUsers().subscribe(res=>{this.users=res
-           this.usersCopy=res;
-        console.log(this.users);
-        this.usersLoaded=!this.usersLoaded;});
-      this.listTitles = ROUTES.filter(listTitle => listTitle);
-      const navbar: HTMLElement = this.element.nativeElement;
-      this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-      this.router.events.subscribe((event) => {
-        this.sidebarClose();
-         var $layer: any = document.getElementsByClassName('close-layer')[0];
-         if ($layer) {
-           $layer.remove();
-           this.mobile_menu_visible = 0;
-         }
-     });
+    ngOnInit() {
+
+        this.userService.loadUsers().subscribe(res => {
+            this.users = res
+            this.usersCopy = res;
+            console.log(this.users);
+            this.usersLoaded = !this.usersLoaded;
+        });
+        this.listTitles = ROUTES.filter(listTitle => listTitle);
+        const navbar: HTMLElement = this.element.nativeElement;
+        this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+        this.router.events.subscribe((event) => {
+            this.sidebarClose();
+            var $layer: any = document.getElementsByClassName('close-layer')[0];
+            if ($layer) {
+                $layer.remove();
+                this.mobile_menu_visible = 0;
+            }
+        });
     }
 
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const body = document.getElementsByTagName('body')[0];
-        setTimeout(function(){
+        setTimeout(function () {
             toggleButton.classList.add('toggled');
         }, 500);
 
@@ -82,13 +84,13 @@ export class NavbarComponent implements OnInit {
             if ($layer) {
                 $layer.remove();
             }
-            setTimeout(function() {
+            setTimeout(function () {
                 $toggle.classList.remove('toggled');
             }, 400);
 
             this.mobile_menu_visible = 0;
         } else {
-            setTimeout(function() {
+            setTimeout(function () {
                 $toggle.classList.add('toggled');
             }, 430);
 
@@ -98,22 +100,22 @@ export class NavbarComponent implements OnInit {
 
             if (body.querySelectorAll('.main-panel')) {
                 document.getElementsByClassName('main-panel')[0].appendChild($layer);
-            }else if (body.classList.contains('off-canvas-sidebar')) {
+            } else if (body.classList.contains('off-canvas-sidebar')) {
                 document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
                 $layer.classList.add('visible');
             }, 100);
 
-            $layer.onclick = function() { //asign a function
-              body.classList.remove('nav-open');
-              this.mobile_menu_visible = 0;
-              $layer.classList.remove('visible');
-              setTimeout(function() {
-                  $layer.remove();
-                  $toggle.classList.remove('toggled');
-              }, 400);
+            $layer.onclick = function () { //asign a function
+                body.classList.remove('nav-open');
+                this.mobile_menu_visible = 0;
+                $layer.classList.remove('visible');
+                setTimeout(function () {
+                    $layer.remove();
+                    $toggle.classList.remove('toggled');
+                }, 400);
             }.bind(this);
 
             body.classList.add('nav-open');
@@ -122,32 +124,31 @@ export class NavbarComponent implements OnInit {
         }
     };
 
-    getTitle(){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
-      if(titlee.charAt(0) === '#'){
-          titlee = titlee.slice( 1 );
-      }
+    getTitle() {
+        var titlee = this.location.prepareExternalUrl(this.location.path());
+        if (titlee.charAt(0) === '#') {
+            titlee = titlee.slice(1);
+        }
 
-      for(var item = 0; item < this.listTitles.length; item++){
-          if(this.listTitles[item].path === titlee){
-              return this.listTitles[item].title;
-          }
-      }
-      return 'Dashboard';
+        for (var item = 0; item < this.listTitles.length; item++) {
+            if (this.listTitles[item].path === titlee) {
+                return this.listTitles[item].title;
+            }
+        }
+        return 'Dashboard';
     }
 
     logout() {
         this.authService.logout();
     }
 
-    @ViewChild("something") something:ElementRef;
+    @ViewChild("something") something: ElementRef;
     source: any;
     ngAfterViewInit(): void {
         this.source = fromEvent(this.something.nativeElement, 'keyup');
-        this.source.pipe(debounceTime(1200)).subscribe(c =>
-            {
-               console.log("This is hit");
-            }
+        this.source.pipe(debounceTime(1200)).subscribe(c => {
+            console.log("This is hit");
+        }
         );
     }
 
@@ -155,7 +156,7 @@ export class NavbarComponent implements OnInit {
 
     }
 
-    filter= '';
+    filter = '';
     private timer: any;
 
     searchChange(filter: string, to = false) {
@@ -166,13 +167,12 @@ export class NavbarComponent implements OnInit {
 
             this.timer = setTimeout(() => {
                 console.log("This is hit with delay" + filter);
-                this.users=[];
-                this.usersCopy.forEach((loop)=>{
+                this.users = [];
+                this.usersCopy.forEach((loop) => {
 
-                    if( loop.userid.toLowerCase().indexOf(filter)>-1 ||
-                        loop.fullname.toLowerCase().indexOf(filter)>-1
-                    )
-                    {
+                    if (loop.userid.toLowerCase().indexOf(filter) > -1 ||
+                        loop.fullname.toLowerCase().indexOf(filter) > -1
+                    ) {
                         this.users.push(loop);
                     };
 
@@ -180,15 +180,19 @@ export class NavbarComponent implements OnInit {
                 });
                 console.log(this.users);
 
-                    // this.userService.loadUsersBYSearch(filter).subscribe(
-                    //     (data: any)=>{
-                    //         this.users=data;
-                    //         console.log("This is hit without delay" + filter)
-                    //     }
-                    // );
+                // this.userService.loadUsersBYSearch(filter).subscribe(
+                //     (data: any)=>{
+                //         this.users=data;
+                //         console.log("This is hit without delay" + filter)
+                //     }
+                // );
             }, 100);
         } else {
             console.log("This is hit without delay" + filter)
         }
+    }
+
+    onUserClick(userid: any) {
+        this.router.navigate(['/user-profile'], { queryParams: { userId: userid }, skipLocationChange: true });
     }
 }
