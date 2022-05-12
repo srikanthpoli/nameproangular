@@ -48,7 +48,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        let routeUser;
+        let routeUser:any;
         this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
