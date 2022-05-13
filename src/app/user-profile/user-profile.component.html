@@ -4,7 +4,11 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title">Employee Profile</h4>
+                        <h4 class="card-title" *ngIf="this.loggedInUser.userId
+                                             !=this.profileData.userid">
+                            {{this.profileData?.firstname}}'s Profile</h4>
+                        <h4 class="card-title" *ngIf="this.loggedInUser.userId
+                        ==this.profileData.userid" >My Profile</h4>
 
                     </div>
                     <div class="card-body">

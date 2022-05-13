@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header card-header-danger">
-        <h4 class="card-title">Recorded Pronunciation</h4>
+        <h4 class="card-title">Preferred Pronunciation</h4>
 
     </div>
     <div class="card-body">
@@ -44,7 +44,7 @@
                             Delete
                         </button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4"  *ngIf="(this.recordedData?.status==='Pending' || this.recordedData?.status==='Declined') &&  (this.isLoggedInUser || this.isAdmin)">
 
 
                         <div style="margin-top:10px;margin-left: -44px">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="this.recordedData?.status === 'Approved'" style="    text-align: left;
+                <div *ngIf="this.recordedData?.status === 'Approved' &&  (this.isLoggedInUser || this.isAdmin)" style="    text-align: left;
     font-weight: 500;
     margin-left: 10px;" class="row">
                     <span style=" font-weight: 1000">Approved by:</span> <span
@@ -92,7 +92,7 @@
                     {{this.recordedData?.approvedbyname}}</span>
                 </div>
 
-                <div *ngIf="this.recordedData?.status === 'Declined'" style="    text-align: left;
+                <div *ngIf="this.recordedData?.status === 'Declined'&& (this.isLoggedInUser || this.isAdmin)" style="    text-align: left;
     font-weight: 500;
     margin-left: 10px;" class="row">
                     <span style=" font-weight: 1000">Declined by:</span> <span
@@ -100,9 +100,10 @@
                     {{this.recordedData?.approvedbyname}}</span>
                 </div>
 
-                <div *ngIf="this.recordedData?.status === 'Declined'" style="    text-align: left;
-    font-weight: 500;
-    margin-left: 10px;" class="row">
+                <div div *ngIf="this.recordedData?.status === 'Declined'&& (this.isLoggedInUser || this.isAdmin)"
+                             style="    text-align: left;
+                                font-weight: 500;
+                            margin-left: 10px;" class="row">
                     <span style=" font-weight: 1000">Reason:</span> <span
                         style="font-style: italic; ; margin-left: 15px; font-weight: 500">
                     {{this.recordedData?.reason}}</span>
