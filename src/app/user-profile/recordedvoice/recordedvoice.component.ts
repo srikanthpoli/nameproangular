@@ -34,6 +34,7 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
     isAdmin: any;
     isLoggedInUser: any;
     loggedInUser: any;
+    file: File = null; 
 
 
     ngOnInit() {
@@ -271,5 +272,13 @@ showRecording() {
                     });
 
             });
+    }
+
+    onUpload() {
+        this.send(this.file);;
+    }
+    onChange(event: any) {
+        this.file = event.target.files[0];
+
     }
 }
