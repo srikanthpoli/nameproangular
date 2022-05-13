@@ -14,6 +14,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
 import {RecordedvoiceComponent} from '../../user-profile/recordedvoice/recordedvoice.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
     imports: [
@@ -28,8 +29,9 @@ import {RecordedvoiceComponent} from '../../user-profile/recordedvoice/recordedv
         MatSelectModule,
         MatTooltipModule,
         MatProgressSpinnerModule,
-        MatIconModule
-            ],
+        MatIconModule,
+        MatToolbarModule
+    ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

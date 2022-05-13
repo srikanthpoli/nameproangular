@@ -11,22 +11,58 @@
         </div>
         <div style="text-align:center;" *ngIf="!loader">
             <div *ngIf="!fileFound && (this.isLoggedInUser || this.isAdmin)">
-                <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
-                        style="cursor: pointer;background-color: green;color: white;font-size: 12px;"> Start
-                    Recording
-                </button>
-                 |
-                    <input class="form-control" type="file" 
-                            (change)="onChange($event)">
-                  
-                    <button (click)="onUpload()" 
-                        class="btn btn-primary"  style="cursor: pointer;background-color: green;color: white;font-size: 12px;">
-                        Upload
+                <div class="row">
+                    <div class="col-md-3">
+                    <button style="width: 133%;" (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
+                            style="cursor: pointer;background-color: green;color: white;font-size: 12px;"> Record
                     </button>
-                
-                <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
-                        style="cursor: pointer;background-color: red;color: white;font-size: 12px;"> Stop Recording
-                </button>
+
+                    <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
+                            style="cursor: pointer;background-color: red;color: white;font-size: 12px;"> Stop
+                    </button>
+
+                    </div>
+                    <div style="    margin-top: 20px;
+    font-weight: 1000" class="col-md-2">
+                        <span>OR</span>
+                    </div>
+                    <div style="    margin-top: -10px" class="col-md-3">
+
+
+                            <div>
+                                <mat-toolbar style="    width: 242%;
+    /* border: 2px solid; */
+    padding-top: 0px;
+    margin-top: 7px">
+                                    <!-- Browse Button -->
+
+
+                                    <button  style="width: 30px" mat-flat-button color="primary"><mat-icon>cloud_upload</mat-icon></button>
+                                    <input  style="margin-left: 5px;font-size: 13px;width: 200px" matInput [(ngModel)]="fileAttr" readonly name="name" />
+                                    <!-- Display files names -->
+
+<!--                                    <button *ngIf="fileAttr!==''" mat-flat-button color="primary">Upload</button>-->
+
+                                </mat-toolbar>
+                                <!-- Fetch selected filed on change -->
+                                <input placeholder="Choose .wav file"
+                                        type="file"
+                                        #fileInput
+                                        id="uploadFile"
+                                        (change)="onChange($event)"
+                                        name="uploadFile"
+
+
+                                />
+                            </div>
+
+                    </div>
+                </div>
+                <div style="    color: red;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 500 ; margin-left: 50px;" *ngIf="this.invalidFileFormat">*Not a Valid File</div>
+
             </div>
             <div class="clearfix"></div>
 
@@ -141,8 +177,11 @@
                 </div>
             </div>
             <div *ngIf="!showRecording()">
-                <div class="row" style="margin: auto;    font-weight: 500x">
-                    There is No custom pronunciation set!
+                <div class="row" style="margin: auto;   ">
+                    <span style=" font-size: 16px;
+    font-weight: 500;
+    margin: auto;
+    margin-top: 15px">There is No custom pronunciation set!</span>
                 </div>
             </div>
         </div>

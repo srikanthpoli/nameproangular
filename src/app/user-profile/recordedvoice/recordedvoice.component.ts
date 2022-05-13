@@ -34,9 +34,10 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
     isAdmin: any;
     isLoggedInUser: any;
     loggedInUser: any;
-    file: File = null; 
+    file: File = null;
+    fileAttr: any = 'Upload a sound file(.wav)';
 
-
+    invalidFileFormat = false;
     ngOnInit() {
 
 
@@ -83,7 +84,7 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
      * Start recording.
      */
     initiateRecording() {
-
+        this.invalidFileFormat = false;
         this.recording = true;
         const mediaConstraints = {
             video: false,
@@ -274,11 +275,21 @@ showRecording() {
             });
     }
 
-    onUpload() {
-        this.send(this.file);;
-    }
     onChange(event: any) {
+        this.invalidFileFormat = false;
         this.file = event.target.files[0];
+        this.fileAttr = this.file.name;
+        if (this.fileAttr.indexOf('.wav') === -1) {
+            this.invalidFileFormat = true;
+            return;
+
+        }
+        this.loader = true;
+        this.send(this.file); ;
+
+    }
+
+    uploadFileEvt($event: Event) {
 
     }
 }
