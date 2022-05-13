@@ -15,6 +15,15 @@
                         style="cursor: pointer;background-color: green;color: white;font-size: 12px;"> Start
                     Recording
                 </button>
+                 |
+                    <input class="form-control" type="file" 
+                            (change)="onChange($event)">
+                  
+                    <button (click)="onUpload()" 
+                        class="btn btn-primary"  style="cursor: pointer;background-color: green;color: white;font-size: 12px;">
+                        Upload
+                    </button>
+                
                 <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
                         style="cursor: pointer;background-color: red;color: white;font-size: 12px;"> Stop Recording
                 </button>
