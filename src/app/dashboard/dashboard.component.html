@@ -12,7 +12,12 @@
 
                     </div>
                     <div class="card-body table-responsive">
-                        <table class="table table-hover">
+                        <div style="     margin-left: 500px;
+                            width: 50px">
+                            <mat-spinner [diameter]="50" *ngIf="!isDataAvailable"></mat-spinner>
+                        </div>
+                        <table class="table table-hover" *ngIf="isDataAvailable">
+
                             <thead class="text-warning">
                                 <th>Employee Id</th>
                                 <th>User ID</th>
@@ -21,12 +26,8 @@
                                 <th>Last recorded</th>
 
                             </thead>
-                            <div style=" margin-left: auto;
-                            margin-right: auto;
-                            width: 50px">
-                            <mat-spinner [diameter]="50" *ngIf="!isDataAvailable"></mat-spinner>
-                            </div>
-                            <tbody *ngIf="isDataAvailable">
+
+                            <tbody >
                                     <tr *ngFor="let userInfo of this.pendingApprovals">
                                         <td><a    [routerLink]="['/user-profile']"
                                             [queryParams]="{'userId': userInfo.uid }"  href="#">{{userInfo.employeeid}}</a></td>
