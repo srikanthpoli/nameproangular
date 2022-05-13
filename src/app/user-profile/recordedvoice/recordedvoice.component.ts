@@ -3,6 +3,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import * as RecordRTC from 'recordrtc'
 import {GlobalConstants} from '../../common/global-constants';
+import {UserService} from '../../service/user.service';
 
 @Component({
     selector: 'app-recorded',
@@ -37,9 +38,17 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
 
     ngOnInit() {
 
+
+
+
       this.isAdmin = JSON.parse(localStorage.getItem('userData')).roles.includes('ADMIN') ? true : false;
       this.loggedInUser = JSON.parse(localStorage.getItem('userData'));
       this.isLoggedInUser = this.userid == this.loggedInUser.userId ? true : false;
+        this.recordedData = {'status' : 'Not Found',
+            'recordedData' : new Date(),
+            'recordedbyname': this.loggedInUser.userId
+
+        };
         this.fileFound = false;
         this.loader = true;
         this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
@@ -47,16 +56,22 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
                 console.log('data here' + JSON.stringify(data));
                 if (data) {
                     this.recordedData = data;
-                    this.fileFound = true;
+                    this.fileFound = true
+                    if (this.recordedData.status === 'Approved') {
+                        this.userService.fileUploadedAndApproved.next(true);
+                    }
 
 
+                } else {
+                    this.userService.fileUploadedAndApproved.next(false);
                 }
                 this.loader = false;
             });
 
     }
 
-    constructor(private domSanitizer: DomSanitizer, private http: HttpClient) {
+    constructor(private domSanitizer: DomSanitizer, private http: HttpClient,
+                private userService: UserService) {
     }
 
     sanitize(url: string) {
@@ -129,7 +144,7 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
          ;
             this.urlRecorded =
                 GlobalConstants.URL + 'blob/getBlob?blobName=Recorded-' + this.employeeID + '.wav';
-            console.log("recorded data is" + JSON.stringify(data) )
+            console.log('recorded data is' + JSON.stringify(data) )
             this.recordedData.status = 'Pending'
             this.recordedData.recordedbydate = new Date();
             this.recordedData.recordedbyname = this.loggedInUser.userId;
@@ -174,7 +189,8 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
         })
             .subscribe(data => {
                 this.loader = false;
-                this.fileFound = false;
+                this.fileFound = false
+                this.userService.fileUploadedAndApproved.next(false);
             })
 
 
@@ -199,6 +215,7 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
                         }
                         this.loader = false;
                         this.fileFound = true;
+                        this.userService.fileUploadedAndApproved.next(true);
                     });
 
             });
@@ -207,7 +224,7 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
     ngOnChanges() {
         // create header using child_id
         console.log(this.employeeID);
-
+        this.loggedInUser = JSON.parse(localStorage.getItem('userData'));
         this.isLoggedInUser = this.userid == this.loggedInUser.userId ? true : false;
         this.loader = true;
         this.http.get(GlobalConstants.URL + 'employee/sound/' + this.employeeID)
@@ -216,8 +233,11 @@ export class RecordedvoiceComponent implements OnInit, OnChanges {
                 if (data) {
                     this.recordedData = data;
                     this.fileFound = true;
+                    if (this.recordedData.status === 'Approved') {
 
+                        this.userService.fileUploadedAndApproved.next(true);
 
+                    }
                 }
                 this.loader = false;
             });
@@ -246,6 +266,8 @@ showRecording() {
                         }
                         this.loader = false;
                         this.fileFound = true;
+
+                        this.userService.fileUploadedAndApproved.next(false);
                     });
 
             });
