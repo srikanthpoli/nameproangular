@@ -58,7 +58,8 @@ export class UserProfileComponent implements OnInit {
             }
             this.userService.loadUserData(routeUser).subscribe(res => {
                 this.profileData = res;
-                console.log(this.profileData)
+                console.log(this.profileData.userid)
+                console.log(this.loggedInUser.userId);
                 this.getVoiceListData();
             });
           }
