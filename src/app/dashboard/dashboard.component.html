@@ -8,13 +8,15 @@
 
 
                     <div class="card-header card-header-warning">
-                        <h4 class="card-title">Name Pro Stats</h4>
+                        <h4 class="card-title">Pending Approvals</h4>
 
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-hover">
                             <thead class="text-warning">
                                 <th>Employee Id</th>
+                                <th>User ID</th>
+                                <th>Employee Name</th>
                                 <th>Recorded By</th>
                                 <th>Last recorded</th>
 
@@ -27,7 +29,9 @@
                             <tbody *ngIf="isDataAvailable">
                                     <tr *ngFor="let userInfo of this.pendingApprovals">
                                         <td><a    [routerLink]="['/user-profile']"
-                                            [queryParams]="{'userId':'U832223'}"  href="#">{{userInfo.employeeid}}</a></td>
+                                            [queryParams]="{'userId': userInfo.uid }"  href="#">{{userInfo.employeeid}}</a></td>
+                                        <td>{{userInfo.uid}}</td>
+                                        <td>{{userInfo.employeeName}}</td>
                                         <td>{{userInfo.recordedbyname}}</td>
                                         <td>{{userInfo.recordedbydate | date:'dd/MM/yyyy'}}</td>
                                     </tr>

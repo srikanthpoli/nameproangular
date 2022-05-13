@@ -40,6 +40,9 @@ export class UserProfileComponent implements OnInit {
     playbackcount: any = 0;
     profileData: any
     loggedInUser: any;
+    selectedVoice: any;
+
+    fileUploadedAndApproved: any = false;
 
 
     constructor(private textToSpeechService: TextToSpeechService, private authService: AuthService, private router: Router,
@@ -68,10 +71,11 @@ export class UserProfileComponent implements OnInit {
     }
 
 
-
     ngOnInit() {
 
-
+            this.userService.fileUploadedAndApproved.subscribe(data => {
+                this.fileUploadedAndApproved = data;
+            })
     }
     getVoiceListData() {
         this.textToSpeechService.getVoiceList().subscribe(
@@ -82,10 +86,10 @@ export class UserProfileComponent implements OnInit {
                 console.log(data);
                 // tslint:disable-next-line:no-shadowed-variable
                 this.datalocal.forEach((element) => {
-                    if (element.LocaleName.indexOf('India') > -1 || element.LocaleName.indexOf('English') > -1) {
+                    // if (element.LocaleName.indexOf('India') > -1 || element.LocaleName.indexOf('English') > -1) {
                         if (!(this.voiceList.includes(element.Locale + ':' + element.LocaleName))) {
                             this.voiceList.push(element.Locale + ':' + element.LocaleName)
-                        }
+                        // }
                     }
                 });
 
@@ -109,9 +113,14 @@ export class UserProfileComponent implements OnInit {
                                 viewValue: voicelist.DisplayName + ' (' + voicelist.VoiceType + ')',
                                 gender: voicelist.Gender
                             });
+
+                            this.selectedVoice = voicelist.ShortName + ':' + voicelist.Gender;
                         }
                         ;
-                    });
+                    })
+                    this.genderName = this.selectedVoice.substring(this.selectedVoice.indexOf(':', 0) + 1);
+                    this.shortName = this.selectedVoice.substring(0, this.selectedVoice.indexOf(':', 0));
+                    this.runValidation();
                 }
                 this.dataLoaded = true;
                  this.http.get(GlobalConstants.URL + 'employee/sound/count/' + this.profileData.employeeid).subscribe(count => {
@@ -192,4 +201,8 @@ export class UserProfileComponent implements OnInit {
         }
     }
 
+    checkPlay() {
+        return (this.notSelectedValidationFailed || this.fileUploadedAndApproved);
+
+    }
 }

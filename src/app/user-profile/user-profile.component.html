@@ -135,7 +135,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title">Standard Name Pronunciation</h4>
+                        <h4 class="card-title">Standard Pronunciation</h4>
 
                     </div>
                     <div class="card-body">
@@ -145,14 +145,14 @@
                             <mat-spinner [diameter]="50" *ngIf="!dataLoaded"></mat-spinner>
                         </div>
                         <form *ngIf="dataLoaded">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <span style="font-weight:1000"><b>Preferred Name :</b></span> <span style="display: inline;
-                              position:relative;
-                              margin-left: 2px;
-                              font-weight:500">{{this.profileData.preferedname}}</span>
-                                </div>
-                            </div>
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-8">-->
+<!--                                    <span style="font-weight:1000"><b>Preferred Name :</b></span> <span style="display: inline;-->
+<!--                              position:relative;-->
+<!--                              margin-left: 2px;-->
+<!--                              font-weight:500">{{this.profileData.preferedname}}</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="row"   style="margin-top: 10px">
                                 <div class="col-md-6">
                                     <mat-form-field appearance="fill">
@@ -169,7 +169,8 @@
                                 <div class="col-md-6">
                                     <mat-form-field appearance="fill">
                                         <mat-label>Voice</mat-label>
-                                        <mat-select (selectionChange)="onChangeofVoice($event)" required>
+                                        <mat-select (selectionChange)="onChangeofVoice($event)" required
+                                                    [(value)]=this.selectedVoice>
                                             <mat-option *ngFor="let voice of voiceNames" [value]="voice.value">
                                                 {{voice.viewValue}}
                                             </mat-option>
@@ -191,10 +192,24 @@
                           width: 50px">
                                     <mat-spinner [diameter]="50" *ngIf="voiceLoader"></mat-spinner>
                                     <button *ngIf="!voiceLoader" mat-raised-button color="primary"
-                                            (click)="onPlayStandard()" [disabled]="this.notSelectedValidationFailed">
+                                            (click)="onPlayStandard()" [disabled]=" checkPlay()">
                                         <mat-icon>play_arrow</mat-icon>
                                         Play
                                     </button>
+                                </div>
+
+                            </div>
+
+                            <div style="margin-top: 10px" *ngIf="this.fileUploadedAndApproved" class="row">
+                                <div style="    margin-left: auto;
+                          margin-right: auto;">
+
+                                    <span
+                                    style="color: red;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 500">Note: Standard Pronunciation disabled because user have custom pronunciation set!
+                                    </span>
                                 </div>
 
                             </div>
